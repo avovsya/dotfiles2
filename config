@@ -1,0 +1,7 @@
+ForwardAgent yes
+
+Host aws
+     HostName ec2-54-213-11-88.us-west-2.compute.amazonaws.com
+     User ubuntu
+     IdentityFile ~/projects/aws_ec2/money-track-test.pem
+     ForwardAgent yes
