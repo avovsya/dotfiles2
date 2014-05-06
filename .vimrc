@@ -291,7 +291,7 @@ nmap <Leader>ff gg=G''
 nmap <Leader>f<Space> :%s/\s\+$//<cr>''
 
 " Replace multiple empty lines with one
-nmap <Leader>fl :g/^$/,/./-j<Return>,<Space>''
+nmap <leader>fl :silent %!cat -s<Return>
 
 " Tabularize lines
 vmap <Leader>ft :Tabularize /
@@ -390,7 +390,6 @@ function! SmartExit()
     endif
 endfunction
 
-
 " ----------------------------------------- "
 " "Plugin configs"    		    			" {{{1
 " ----------------------------------------- "
@@ -421,7 +420,6 @@ nnoremap <Leader>d :LiteDFMToggle<CR>:silent !tmux set status<CR>
 " ***************************************** "
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
-
 
 " ***************************************** "
 " CtrlP {{{2
