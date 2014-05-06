@@ -4,7 +4,7 @@
 set nocompatible                "Turn off compability mode with Vi, we don't need that anymore
 filetype off " required
 
-set runtimepath+=~/.vim/bundle/Vundle.vim
+set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " Test plugins ---------------------------------"
@@ -189,10 +189,10 @@ endif
 " ----------------------------------------- "
 let mapleader=","
 
-cmap <C-h> <Left>
-cmap <C-l> <Right>
-cmap <C-j> <Down>
-cmap <C-k> <Up>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
 
 set pastetoggle=<Leader>p
 
@@ -269,8 +269,8 @@ nmap <Leader>qa :qa<CR>
 " Utilities {{{2
 " ***************************************** "
 " Shortcut for :%s//
-nnoremap <leader>r :%s//<left>
-vnoremap <leader>r :s//<left>
+nnoremap <leader>r :%s/\v
+vnoremap <leader>r :s/\v
 
 noremap K f<Space>s<CR><Esc>
 
@@ -389,6 +389,29 @@ endfunction
 " ----------------------------------------- "
 " "Plugin configs"    		    			" {{{1
 " ----------------------------------------- "
+
+" ***************************************** "
+" FocusMode {{{2
+" ***************************************** "
+""" FocusMode
+function! ToggleFocusMode()
+  if (&foldcolumn != 12)
+    set laststatus=0
+    set numberwidth=10
+    set foldcolumn=12
+    set noruler
+    hi FoldColumn ctermbg=none
+    hi LineNr ctermfg=0 ctermbg=none
+    hi NonText ctermfg=0
+  else
+    set laststatus=2
+    set numberwidth=4
+    set foldcolumn=0
+    set ruler
+    execute 'colorscheme ' . g:colors_name
+  endif
+endfunc
+nnoremap <leader>d :call ToggleFocusMode()<cr>
 
 " ***************************************** "
 " dilimitMate {{{2
