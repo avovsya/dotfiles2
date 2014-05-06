@@ -1,6 +1,5 @@
-" .vimrc
 " ----------------------------------------------"
-" Bundles
+" "Bundles" {{{1
 " ----------------------------------------------"
 set nocompatible                "Turn off compability mode with Vi, we don't need that anymore
 filetype off " required
@@ -52,11 +51,12 @@ Plugin 'digitaltoad/vim-jade.git'
 
 " Colorschemes
 Plugin 'git://github.com/altercation/vim-colors-solarized.git'
+Plugin 'https://github.com/Lokaltog/vim-distinguished'
 
 " Misc
 
 " ----------------------------------------------"
-" General
+" "General" {{{1
 " ----------------------------------------------"
 syntax on
 filetype plugin indent on
@@ -93,13 +93,21 @@ set undodir=~/.vim/undodir
 set undofile
 
 set showmatch                   " Do not show matching brackets by flickering
+
+" Fix Vim’s horribly broken default regex “handling” by automatically inserting a \v before any string you search for.
+" This turns off Vim’s crazy default regex characters and makes searches use normal regexes.
+nnoremap / /\v
+vnoremap / /\v
 set incsearch                   " Shows the match while typing
 set hlsearch                    " Highlight found searches
+
 set ignorecase                  " Search case insensitive...
 set smartcase                   " ... but not when search pattern contains upper case characters
 set gdefault                    " 'g' flag for all commands like :%s/a/b
 set ruler       " Включение отображения позиции курсора (всё время)
 set nowrap
+
+set sidescroll=4
 
 set mouse=a     " Подключение мыши
 set mousehide   " Прятать указатель во время набора текста
@@ -111,13 +119,16 @@ set shortmess+=I    " Отключение приветственного соо
 set virtualedit=onemore
 
 " ----------------------------------------------"
-" Sessions
+" "Sessions" {{{1
 " ----------------------------------------------"
+" Set cursor to the previous position while opening file
+autocmd BufReadPost * call SetCursorPosition()
+
 set sessionoptions=curdir,buffers,folds,tabpages,winpos,help,blank,resize,winpos,winsize " Опции сессий
 set sessionoptions+=unix,slash                                                           " Опции помогают переносить файлы сессий с *nix`ов в ms-windows и наоборот
 
 " ----------------------------------------------"
-" Line wrap
+" "Line" wrap {{{1
 " ----------------------------------------------"
 command! -nargs=* Wrap set wrap linebreak nolist | set showbreak=↳
 " execute "Wrap"
@@ -128,7 +139,7 @@ set formatoptions=
 set formatoptions=rcqln " auto-wrap comments
 
 " ----------------------------------------------"
-" Terminal modifications
+" "Terminal modifications" {{{1
 " ----------------------------------------------"
 set t_Co=256	" 256 colors in terminal
 set ttyfast
@@ -140,21 +151,24 @@ set lazyredraw
 set ttimeoutlen=50
 
 " ----------------------------------------------"
-" GUI modifications (color, shortcuts, etc.. "
+" "GUI modifications (color, shortcuts, etc.. " {{{1
 " ----------------------------------------------"
 " Установка символов для подсветки
 set fillchars=fold:·,vert:\|
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×
-"let g:solarized_visibility = "high"
-"let g:solarized_contrast = "high"
+
+" Show ↪ at the beginning of wrapped lines
+if has("linebreak")
+    let &sbr = nr2char(8618).' '
+endif
 set background=dark
-"let g:solarized_termtrans=1
-let g:solarized_termcolors=256
 
 " Set interface language to English
 language mes C
 
-colorscheme solarized
+"let g:solarized_termcolors=256
+"colorscheme solarized
+colorscheme distinguished
 highlight SignColumn guibg=#272822
 
 if has("gui_macvim")
@@ -171,16 +185,22 @@ if has("gui_macvim")
 endif
 
 " ----------------------------------------- "
-" Mappings
+" "Mappings" {{{1
 " ----------------------------------------- "
 let mapleader=","
+
+cmap <C-h> <Left>
+cmap <C-l> <Right>
+cmap <C-j> <Down>
+cmap <C-k> <Up>
 
 set pastetoggle=<Leader>p
 
 inoremap jk <Esc>
 snoremap jk <Esc>
 
-nnoremap <silent><Leader><Space> :nohlsearch<CR><ESC>
+"nnoremap <silent><Leader><Space> :nohlsearch<CR><ESC>
+nnoremap <silent><Esc> :nohlsearch<CR><ESC>
 
 " Visually select the text that was last edited/pasted
 nmap gV `[v`]
@@ -194,7 +214,7 @@ map <C-s> <esc>:w!<CR>
 imap <C-s> <C-o>:w!<CR>
 
 " ***************************************** "
-" Quick edit
+" Quick edit {{{2
 " ***************************************** "
 
 " ,ev open _vimrc in new tab
@@ -207,7 +227,7 @@ nmap <leader>ei :e .gitignore<CR>
 nmap <leader>es :Sscratch<cr>
 
 " ***************************************** "
-" Reset default mappings
+" Reset default mappings {{{2
 " ***************************************** "
 
 " Yank to the end of the line
@@ -218,10 +238,8 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-noremap K f<Space>s<CR><Esc>
-
 " ***************************************** "
-" Splits and buffers
+" Splits and buffers {{{2
 " ***************************************** "
 
 " Создаем пустой сплит относительно текущего
@@ -230,8 +248,8 @@ nmap <Leader>\ :rightbelow vnew <bar> set nobuflisted<CR>
 nmap <Leader>- :rightbelow new <bar> set nobuflisted<CR>
 nmap <Leader>_ :new <bar> set nobuflisted<CR>
 
-nmap <Leader>h :bp<CR>
-nmap <Leader>l :bn<CR>
+"nmap <Leader>h :bp<CR>
+"nmap <Leader>l :bn<CR>
 
 " Resize window
 noremap <Up> 5<C-W>+
@@ -248,8 +266,13 @@ nnoremap <Leader>bw :bw<CR>
 nmap <Leader>qa :qa<CR>
 
 " ***************************************** "
-" Utilities
+" Utilities {{{2
 " ***************************************** "
+" Shortcut for :%s//
+nnoremap <leader>r :%s//<left>
+vnoremap <leader>r :s//<left>
+
+noremap K f<Space>s<CR><Esc>
 
 " Show hidden chars
 nmap <Leader>i :call ToggleListChars()<cr>
@@ -269,7 +292,7 @@ nmap <Leader>fl :g/^$/,/./-j<Return>,<Space>''
 vmap <Leader>ft :Tabularize /
 
 " ----------------------------------------- "
-" Functions 		    			        "
+" "Functions" 		    			        " {{{1
 " ----------------------------------------- "
 
 function! ToggleListChars()
@@ -278,6 +301,15 @@ function! ToggleListChars()
     else
         :set list
     endif
+endfunction
+
+function! SetCursorPosition()
+    if &filetype !~ 'svn\|commit\c'
+        if line("'\"") > 0 && line("'\"") <= line("$")
+            exe "normal! g`\""
+            normal! zz
+        endif
+    end
 endfunction
 
 " http://stackoverflow.com/questions/6552295/deleting-all-empty-buffers-in-vim
@@ -355,23 +387,23 @@ endfunction
 
 
 " ----------------------------------------- "
-" Plugin configs    		    			"
+" "Plugin configs"    		    			" {{{1
 " ----------------------------------------- "
 
 " ***************************************** "
-" dilimitMate
+" dilimitMate {{{2
 " ***************************************** "
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
 
 
 " ***************************************** "
-" CtrlP
+" CtrlP {{{2
 " ***************************************** "
 let g:ctrlp_cmd = 'CtrlPMixed'			" search anything (in files, buffers and MRU files at the same time.)
 let g:ctrlp_working_path_mode = 'ra'	" search for nearest ancestor like .git, .hg, and the directory of the current file
 let g:ctrlp_match_window_bottom = 0		" show the match window at the top of the screen
-let g:ctrlp_by_filename = 0
+let g:ctrlp_by_filename = 1     " Search only by file name, Can be toggled by Ctrl-d
 let g:ctrlp_max_height = 10				" maxiumum height of match window
 let g:ctrlp_switch_buffer = 'et'		" jump to a file if it's open already
 let g:ctrlp_use_caching = 1				" enable caching
@@ -396,7 +428,7 @@ imap <C-b> <esc>:CtrlPBuffer<cr>
 "imap <C-x><C-f> <esc>:CtrlPMixed<cr>
 
 " ***************************************** "
-" NERDTree
+" NERDTree {{{2
 " ***************************************** "
 let NERDTreeWinPos = 'right'
 let NERDTreeIgnore = ['\~$', '*.pyc', '*.pyo']
@@ -411,7 +443,7 @@ let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ?
 let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
 
 " ***************************************** "
-" Syntastic
+" Syntastic {{{2
 " ***************************************** "
 let g:syntastic_enable_signs = 1
 "set statusline+=%#warningmsg#
@@ -423,7 +455,7 @@ let g:syntastic_warning_symbol = '∆'
 let g:syntastic_style_warning_symbol = '≈'
 
 " ***************************************** "
-" Airline
+" Airline {{{2
 " ***************************************** "
 " Disable tabline, it's distracting
 " Try to use buff switching instead with Ctrl-P
@@ -435,19 +467,20 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_powerline_fonts = 1
+"let g:airline_left_sep = '»'
+"let g:airline_left_sep = '▶'
+"let g:airline_right_sep = '«'
+"let g:airline_right_sep = '◀'
+"let g:airline_symbols.linenr = '␊'
+"let g:airline_symbols.linenr = '␤'
+"let g:airline_symbols.linenr = '¶'
+"let g:airline_symbols.branch = '⎇'
+"let g:airline_symbols.paste = 'ρ'
+"let g:airline_symbols.paste = 'Þ'
+"let g:airline_symbols.paste = '∥'
+"let g:airline_symbols.whitespace = 'Ξ'
+"let g:airline_powerline_fonts = 1
+
 "let g:airline_left_sep = '⮀'
 "let g:airline_left_alt_sep = '⮁'
 "let g:airline_right_sep = '⮂'
@@ -457,20 +490,20 @@ let g:airline_powerline_fonts = 1
 "let g:airline_symbols.linenr = '⭡'
 
 " ***************************************** "
-" YouCompleteMe
+" YouCompleteMe {{{2
 " ***************************************** "
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 
 " ***************************************** "
-" SessionMan
+" SessionMan {{{2
 " ***************************************** "
 nmap <Leader>sl : SessionList<cr>
 nmap <Leader>ss : SessionSave<cr>
 nmap <Leader>sS : SessionSaveAs<cr>
 
 " ***************************************** "
-" UltiSnips
+" UltiSnips {{{2
 " ***************************************** "
 "function! g:UltiSnips_Complete()
     "call UltiSnips_ExpandSnippet()
@@ -494,14 +527,20 @@ nmap <Leader>sS : SessionSaveAs<cr>
 
 let g:UltiSnipsExpandTrigger="<c-j>"
 " ***************************************** "
-" YankRing
+" YankRing {{{2
 " ***************************************** "
-let g:yankring_replace_n_pkey = '<Leader>j'
-let g:yankring_replace_n_nkey = '<Leader>k'
+"let g:yankring_replace_n_pkey = '<Leader>j'
+"let g:yankring_replace_n_nkey = '<Leader>k'
+let g:yankring_replace_n_pkey = '<C-h>'
+let g:yankring_replace_n_nkey = '<C-l>'
 " ***************************************** "
-" Javascript-syntax
+" Javascript-syntax {{{2
 " ***************************************** "
 let g:javascript_conceal = 1
 " ----------------------------------------------"
 " THE END }}}
 " ----------------------------------------------"
+" }}} {{{1
+" vim: foldenable fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64
+" fileencoding=utf-8
+" " }}}
