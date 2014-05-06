@@ -15,8 +15,11 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'tmhedberg/matchit'
 " Snippets for UltiSnips
 Plugin 'honza/vim-snippets'
+"Plugin 'junegunn/goyo.vim'
+Plugin 'bilalq/lite-dfm'
+" Show git diff in VIM!
+Plugin 'airblade/vim-gitgutter'
 " ----------------------------------------------"
-
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'scrooloose/nerdtree.git'
@@ -279,6 +282,8 @@ nmap <Leader>i :call ToggleListChars()<cr>
 
 map <Leader>gw :set invwrap<CR>
 
+map <leader>g :GitGutterToggle<cr>
+
 " Reformat whole file
 nmap <Leader>ff gg=G''
 
@@ -391,27 +396,25 @@ endfunction
 " ----------------------------------------- "
 
 " ***************************************** "
-" FocusMode {{{2
+" Goyo(distraction free mode) {{{2
 " ***************************************** "
-""" FocusMode
-function! ToggleFocusMode()
-  if (&foldcolumn != 12)
-    set laststatus=0
-    set numberwidth=10
-    set foldcolumn=12
-    set noruler
-    hi FoldColumn ctermbg=none
-    hi LineNr ctermfg=0 ctermbg=none
-    hi NonText ctermfg=0
-  else
-    set laststatus=2
-    set numberwidth=4
-    set foldcolumn=0
-    set ruler
-    execute 'colorscheme ' . g:colors_name
-  endif
-endfunc
-nnoremap <leader>d :call ToggleFocusMode()<cr>
+" Lite FDM Plugin
+nnoremap <Leader>d :LiteDFMToggle<CR>:silent !tmux set status<CR>
+"let g:goyo_margin_top=1
+"let g:goyo_margin_bottom=2
+"let g:goyo_width=100
+
+"function! s:goyo_before()
+    "set nonu
+    "silent !tmux set status off
+"endfunction
+
+"function! s:goyo_after()
+    "set nu
+    "silent !tmux set status on
+"endfunction
+
+"let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
 
 " ***************************************** "
 " dilimitMate {{{2
