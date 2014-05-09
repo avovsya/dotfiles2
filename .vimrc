@@ -8,17 +8,6 @@ set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " Test plugins ---------------------------------"
-Plugin 'tpope/vim-vinegar'
-" Insert closing brackets and parens
-Plugin 'Raimondi/delimitMate'
-" Jump with % between tags and etc
-Plugin 'tmhedberg/matchit'
-" Snippets for UltiSnips
-Plugin 'honza/vim-snippets'
-"Plugin 'junegunn/goyo.vim'
-Plugin 'bilalq/lite-dfm'
-" Show git diff in VIM!
-Plugin 'airblade/vim-gitgutter'
 " ----------------------------------------------"
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -39,22 +28,26 @@ Plugin 'vim-scripts/bufkill.vim.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-vinegar'
+Plugin 'Raimondi/delimitMate'
+Plugin 'tmhedberg/matchit'
+Plugin 'honza/vim-snippets'
+Plugin 'bilalq/lite-dfm'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-unimpaired'
+" Text objects for indentation object vii/vai
+Plugin 'git://github.com/austintaylor/vim-indentobject.git'
 
 " Syntax
 Plugin 'groenewege/vim-less'
 Plugin 'kchmck/vim-coffee-script.git'
-"
-"Plugin 'jelera/vim-javascript-syntax.git'
-" Experimental javascript syntax plugin
-Plugin 'pangloss/vim-javascript'
-
-" EJS templates
 Plugin 'briancollins/vim-jst'
 Plugin 'digitaltoad/vim-jade.git'
+Plugin 'pangloss/vim-javascript'
 
 " Colorschemes
-Plugin 'git://github.com/altercation/vim-colors-solarized.git'
-Plugin 'https://github.com/Lokaltog/vim-distinguished'
+Plugin 'sjl/badwolf'
+Plugin 'w0ng/vim-hybrid'
 
 " Misc
 
@@ -80,7 +73,7 @@ set nobackup            		" Don't create annoying backup files
 set encoding=utf-8              " Set default encoding to UTF-8
 set autoread                    " Automatically reread changed files without asking me anything
 set laststatus=2
-set nolist          " Не подсвечивать некоторые символы
+set list          " подсвечивать некоторые символы <leader>i to toggle
 
 set autoindent                          " Наследовать отступы предыдущей строки
 set smartindent                         " Включить 'умные' отступы
@@ -97,10 +90,6 @@ set undofile
 
 set showmatch                   " Do not show matching brackets by flickering
 
-" Fix Vim’s horribly broken default regex “handling” by automatically inserting a \v before any string you search for.
-" This turns off Vim’s crazy default regex characters and makes searches use normal regexes.
-nnoremap / /\v
-vnoremap / /\v
 set incsearch                   " Shows the match while typing
 set hlsearch                    " Highlight found searches
 
@@ -121,6 +110,16 @@ set shortmess+=I    " Отключение приветственного соо
 "set virtualedit=all
 set virtualedit=onemore
 
+set scrolloff=5
+"
+" ----------------------------------------------"
+" "FileTypes" {{{1
+" ----------------------------------------------"
+au FileType javascript call JavaScriptFold()
+" ----------------------------------------------"
+" "Folding" {{{1
+" ----------------------------------------------"
+"set foldnestmax=2
 " ----------------------------------------------"
 " "Sessions" {{{1
 " ----------------------------------------------"
@@ -156,6 +155,8 @@ set ttimeoutlen=50
 " ----------------------------------------------"
 " "GUI modifications (color, shortcuts, etc.. " {{{1
 " ----------------------------------------------"
+
+
 " Установка символов для подсветки
 set fillchars=fold:·,vert:\|
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×
@@ -169,10 +170,10 @@ set background=dark
 " Set interface language to English
 language mes C
 
-"let g:solarized_termcolors=256
-"colorscheme solarized
-colorscheme distinguished
-highlight SignColumn guibg=#272822
+"colorscheme pablo
+"colorscheme badwolf
+colorscheme hybrid
+"highlight SignColumn guibg=#272822
 
 if has("gui_macvim")
     " No toolbars, menu or scrollbars in the GUI
@@ -192,17 +193,31 @@ endif
 " ----------------------------------------- "
 let mapleader=","
 
+" Fix Vim’s horribly broken default regex “handling” by automatically inserting a \v before any string you search for.
+" This turns off Vim’s crazy default regex characters and makes searches use normal regexes.
+nnoremap / /\v
+vnoremap / /\v
+
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 cnoremap <C-j> <Down>
 cnoremap <C-k> <Up>
+
+nnoremap <silent> n nzz:call HLNext(0.4)<cr>
+nnoremap <silent> N Nzz:call HLNext(0.4)<cr>
+
+"nmap n nzz
+"nmap N Nzz
+nmap g* g*zz
+nmap g# g#zz
+nmap * *zz
+nmap # #zz
 
 set pastetoggle=<Leader>p
 
 inoremap jk <Esc>
 snoremap jk <Esc>
 
-"nnoremap <silent><Leader><Space> :nohlsearch<CR><ESC>
 nnoremap <silent><Esc> :nohlsearch<CR><ESC>
 
 " Visually select the text that was last edited/pasted
@@ -213,8 +228,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Ctrl+S
-map <C-s> <esc>:w!<CR>
-imap <C-s> <C-o>:w!<CR>
+map <C-s> <esc>:w<CR>
+imap <C-s> <C-o>:w<CR>
 
 " ***************************************** "
 " Quick edit {{{2
@@ -251,15 +266,11 @@ nmap <Leader>\ :rightbelow vnew <bar> set nobuflisted<CR>
 nmap <Leader>- :rightbelow new <bar> set nobuflisted<CR>
 nmap <Leader>_ :new <bar> set nobuflisted<CR>
 
-"nmap <Leader>h :bp<CR>
-"nmap <Leader>l :bn<CR>
-
-" Resize window
-noremap <Up> 5<C-W>+
-noremap <Down> 5<C-W>-
-noremap <Left> 5<C-W><
-noremap <Right> 5<C-W>>
-noremap <Leader>= <C-W>=
+" Quick window resizing
+map <C-k> 2<C-w>>
+map <C-j> 2<C-w><
+map <C-m> 2<C-w>+
+map <C-n> 2<C-w>-
 
 " Wipeout buffer but save split
 nmap <Leader>qq :call SmartExit()<CR>
@@ -299,6 +310,35 @@ vmap <Leader>ft :Tabularize /
 " ----------------------------------------- "
 " "Functions" 		    			        " {{{1
 " ----------------------------------------- "
+function! JavaScriptFold() 
+    "syn match   javaScriptFunction      "\<function\>"
+    "syn region  javaScriptFunctionFold  start="\<function\>.*[^};]$" end="^\z1}.*$" transparent fold keepend
+
+    "syn sync match javaScriptSync       grouphere javaScriptFunctionFold "\<function\>"
+    "syn sync match javaScriptSync       grouphere NONE "^}"
+
+    setl foldenable
+    setl foldmethod=syntax
+    setl foldlevelstart=0
+    setl foldnestmax=1
+    setl foldtext=getline(v:foldstart)
+    "syn sync fromstart
+    "syn sync maxlines=100
+endfunction
+
+"=====[ Highlight the search match in red ]=============
+function! HLNext (blinktime)
+  highlight WhiteOnRed ctermfg=white ctermbg=blue
+  let [bufnum, lnum, col, off] = getpos('.')
+  let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
+  let target_pat = '\c\%#'.@/
+  let ring = matchadd('WhiteOnRed', target_pat, 101)
+  redraw
+  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+  call matchdelete(ring)
+  redraw
+endfunction
+
 
 function! ToggleListChars()
     if &list==1
@@ -526,37 +566,16 @@ nmap <Leader>sl : SessionList<cr>
 nmap <Leader>ss : SessionSave<cr>
 nmap <Leader>sS : SessionSaveAs<cr>
 
-" ***************************************** "
-" UltiSnips {{{2
-" ***************************************** "
-"function! g:UltiSnips_Complete()
-    "call UltiSnips_ExpandSnippet()
-    "if g:ulti_expand_res == 0
-        "if pumvisible()
-            "return "\<C-j>"
-        "else
-            "call UltiSnips_JumpForwards()
-            "if g:ulti_jump_forwards_res == 0
-                "return "\<TAB>"
-            "endif
-        "endif
-    "endif
-    "return ""
-"endfunction
-
-"au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-"let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsListSnippets="<c-e>"
-"let g:UltiSnipsSnippetDirectories = ["UltiSnips", "ultisnips-snippets"]
-
 let g:UltiSnipsExpandTrigger="<c-j>"
+
 " ***************************************** "
 " YankRing {{{2
 " ***************************************** "
-"let g:yankring_replace_n_pkey = '<Leader>j'
-"let g:yankring_replace_n_nkey = '<Leader>k'
-let g:yankring_replace_n_pkey = '<C-h>'
-let g:yankring_replace_n_nkey = '<C-l>'
+let g:yankring_replace_n_pkey = '<Leader>j'
+let g:yankring_replace_n_nkey = '<Leader>k'
+"let g:yankring_replace_n_pkey = '<leader>h'
+"let g:yankring_replace_n_nkey = '<leader>l'
+
 " ***************************************** "
 " Javascript-syntax {{{2
 " ***************************************** "
