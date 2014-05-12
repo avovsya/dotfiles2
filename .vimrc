@@ -8,6 +8,8 @@ set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " Test plugins ---------------------------------"
+" Show indent guides
+Plugin 'Yggdroot/indentLine'
 " ----------------------------------------------"
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -273,11 +275,14 @@ map <C-m> 2<C-w>+
 map <C-n> 2<C-w>-
 
 " Wipeout buffer but save split
-nmap <Leader>qq :call SmartExit()<CR>
+"nmap <Leader>qq :call SmartExit()<CR>
 " Wipeout buffer and close split
-nnoremap <Leader>bw :bw<CR>
+"nnoremap <Leader>bw :bw<CR>
 " Close all
-nmap <Leader>qa :qa<CR>
+"nmap <Leader>qa :qa<CR>
+
+nmap <leader>q :call SmartExit()<CR>
+nmap<leader>w :bw<CR>
 
 " ***************************************** "
 " Utilities {{{2
@@ -310,14 +315,14 @@ vmap <Leader>ft :Tabularize /
 " ----------------------------------------- "
 " "Functions" 		    			        " {{{1
 " ----------------------------------------- "
-function! JavaScriptFold() 
+function! JavaScriptFold()
     "syn match   javaScriptFunction      "\<function\>"
     "syn region  javaScriptFunctionFold  start="\<function\>.*[^};]$" end="^\z1}.*$" transparent fold keepend
 
     "syn sync match javaScriptSync       grouphere javaScriptFunctionFold "\<function\>"
     "syn sync match javaScriptSync       grouphere NONE "^}"
 
-    setl foldenable
+    setl nofoldenable
     setl foldmethod=syntax
     setl foldlevelstart=0
     setl foldnestmax=1
@@ -435,6 +440,13 @@ endfunction
 " ----------------------------------------- "
 
 " ***************************************** "
+" Indent line {{{2
+ let g:indentLine_char = '┆'
+ let g:indentLine_color_term = 239
+ let g:indentLine_color_gui = '#A4E57E'
+ 
+" ***************************************** "
+" ***************************************** "
 " Goyo(distraction free mode) {{{2
 " ***************************************** "
 " Lite FDM Plugin
@@ -530,6 +542,10 @@ let g:syntastic_style_warning_symbol = '≈'
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
+let g:airline_left_sep = ''
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_sep = ''
 
 "let g:airline_left_sep = '»'
 "let g:airline_left_sep = '▶'
@@ -544,14 +560,6 @@ endif
 "let g:airline_symbols.paste = '∥'
 "let g:airline_symbols.whitespace = 'Ξ'
 "let g:airline_powerline_fonts = 1
-
-"let g:airline_left_sep = '⮀'
-"let g:airline_left_alt_sep = '⮁'
-"let g:airline_right_sep = '⮂'
-"let g:airline_right_alt_sep = '⮃'
-"let g:airline_symbols.branch = '⭠'
-"let g:airline_symbols.readonly = '⭤'
-"let g:airline_symbols.linenr = '⭡'
 
 " ***************************************** "
 " YouCompleteMe {{{2
@@ -579,7 +587,7 @@ let g:yankring_replace_n_nkey = '<Leader>k'
 " ***************************************** "
 " Javascript-syntax {{{2
 " ***************************************** "
-let g:javascript_conceal = 1
+"let g:javascript_conceal = 1
 " ----------------------------------------------"
 " THE END }}}
 " ----------------------------------------------"
