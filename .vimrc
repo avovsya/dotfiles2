@@ -9,7 +9,8 @@ call vundle#rc()
 
 " Test plugins ---------------------------------"
 " Show indent guides
-Plugin 'Yggdroot/indentLine'
+"Plugin 'Yggdroot/indentLine'
+Plugin 'nathanaelkane/vim-indent-guides'
 " ----------------------------------------------"
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -22,7 +23,7 @@ Plugin 'tpope/vim-surround.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'godlygeek/tabular'
-Plugin 'vim-scripts/YankRing.vim.git'
+"Plugin 'vim-scripts/YankRing.vim.git'
 Plugin 'vim-scripts/diffchanges.vim.git'
 Plugin 'bling/vim-airline'
 Plugin 'vim-scripts/scratch.vim.git'
@@ -40,12 +41,22 @@ Plugin 'tpope/vim-unimpaired'
 " Text objects for indentation object vii/vai
 Plugin 'git://github.com/austintaylor/vim-indentobject.git'
 
+" Javascript
+Plugin 'moll/vim-node'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'jamescarr/snipmate-nodejs' " Snippets for Node.js
+Plugin 'marijnh/tern_for_vim' " Js parser
+Plugin 'vim-scripts/JavaScript-Indent'
+" Javascript beautirfier
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'einars/js-beautify'
+
 " Syntax
 Plugin 'groenewege/vim-less'
 Plugin 'kchmck/vim-coffee-script.git'
 Plugin 'briancollins/vim-jst'
 Plugin 'digitaltoad/vim-jade.git'
-Plugin 'pangloss/vim-javascript'
 
 " Colorschemes
 Plugin 'sjl/badwolf'
@@ -134,9 +145,6 @@ set sessionoptions+=unix,slash                                                  
 " ----------------------------------------------"
 " "Line" wrap {{{1
 " ----------------------------------------------"
-command! -nargs=* Wrap set wrap linebreak nolist | set showbreak=↳
-" execute "Wrap"
-
 " Hard line wrap
 set textwidth=80
 set formatoptions=
@@ -177,10 +185,14 @@ language mes C
 colorscheme hybrid
 "highlight SignColumn guibg=#272822
 
+set clipboard+=unnamed
+if has("unnamedplus")
+    set clipboard=unnamed,unnamedplus
+endif
 if has("gui_macvim")
     " No toolbars, menu or scrollbars in the GUI
     set guifont=Anonymous\ Pro:h18
-    set clipboard+=unnamed
+    "set clipboard+=unnamed
     set vb t_vb=
     set guioptions-=m  "no menu
     set guioptions-=T  "no toolbar
@@ -188,6 +200,10 @@ if has("gui_macvim")
     set guioptions-=L
     set guioptions-=r  "no scrollbar
     set guioptions-=R
+    set guioptions+=c " use console dialogs
+
+    set cursorline
+    set colorcolumn
 endif
 
 " ----------------------------------------- "
@@ -315,21 +331,21 @@ vmap <Leader>ft :Tabularize /
 " ----------------------------------------- "
 " "Functions" 		    			        " {{{1
 " ----------------------------------------- "
-function! JavaScriptFold()
-    "syn match   javaScriptFunction      "\<function\>"
-    "syn region  javaScriptFunctionFold  start="\<function\>.*[^};]$" end="^\z1}.*$" transparent fold keepend
+"function! JavaScriptFold()
+    ""syn match   javaScriptFunction      "\<function\>"
+    ""syn region  javaScriptFunctionFold  start="\<function\>.*[^};]$" end="^\z1}.*$" transparent fold keepend
 
-    "syn sync match javaScriptSync       grouphere javaScriptFunctionFold "\<function\>"
-    "syn sync match javaScriptSync       grouphere NONE "^}"
+    ""syn sync match javaScriptSync       grouphere javaScriptFunctionFold "\<function\>"
+    ""syn sync match javaScriptSync       grouphere NONE "^}"
 
-    setl nofoldenable
-    setl foldmethod=syntax
-    setl foldlevelstart=0
-    setl foldnestmax=1
-    setl foldtext=getline(v:foldstart)
-    "syn sync fromstart
-    "syn sync maxlines=100
-endfunction
+    "setl nofoldenable
+    "setl foldmethod=syntax
+    "setl foldlevelstart=0
+    "setl foldnestmax=1
+    ""setl foldtext=getline(v:foldstart)
+    ""syn sync fromstart
+    ""syn sync maxlines=100
+"endfunction
 
 "=====[ Highlight the search match in red ]=============
 function! HLNext (blinktime)
@@ -444,7 +460,7 @@ endfunction
  let g:indentLine_char = '┆'
  let g:indentLine_color_term = 239
  let g:indentLine_color_gui = '#A4E57E'
- 
+
 " ***************************************** "
 " ***************************************** "
 " Goyo(distraction free mode) {{{2
@@ -529,6 +545,7 @@ let g:syntastic_error_symbol = '✗'
 let g:syntastic_style_error_symbol = '✠'
 let g:syntastic_warning_symbol = '∆'
 let g:syntastic_style_warning_symbol = '≈'
+let g:syntastic_check_on_open = 1
 
 " ***************************************** "
 " Airline {{{2
@@ -567,6 +584,11 @@ let g:airline_right_sep = ''
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 
+" Disabel preview window of completion
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_confirm_extra_conf=0
+set completeopt-=preview
+
 " ***************************************** "
 " SessionMan {{{2
 " ***************************************** "
@@ -579,8 +601,8 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 " ***************************************** "
 " YankRing {{{2
 " ***************************************** "
-let g:yankring_replace_n_pkey = '<Leader>j'
-let g:yankring_replace_n_nkey = '<Leader>k'
+"let g:yankring_replace_n_pkey = '<Leader>j'
+"let g:yankring_replace_n_nkey = '<Leader>k'
 "let g:yankring_replace_n_pkey = '<leader>h'
 "let g:yankring_replace_n_nkey = '<leader>l'
 
@@ -588,6 +610,20 @@ let g:yankring_replace_n_nkey = '<Leader>k'
 " Javascript-syntax {{{2
 " ***************************************** "
 "let g:javascript_conceal = 1
+" ***************************************** "
+" JS Beautifier {{{2
+" ***************************************** "
+autocmd FileType javascript nnoremap <buffer>  <c-f> :call JsBeautify()<cr>
+" for html
+autocmd FileType html nnoremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css nnoremap <buffer> <c-f> :call CSSBeautify()<cr>
+
+autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
+" for html
+autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 " ----------------------------------------------"
 " THE END }}}
 " ----------------------------------------------"

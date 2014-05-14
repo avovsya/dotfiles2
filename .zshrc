@@ -56,6 +56,9 @@ alias ssh="ssh -A"
 alias tm="tmux"
 alias tma="tmux a -t 0"
 
+alias mvim="reattach-to-user-namespace mvim"
+alias vim="reattach-to-user-namespace vim"
+
 ############################################################################################
 # EXPORTS
 ############################################################################################
