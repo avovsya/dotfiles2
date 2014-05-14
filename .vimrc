@@ -6,6 +6,10 @@ filetype off
 set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
+" Testing plugin {{{2
+Plugin 'jgdavey/tslime.vim'
+"
+
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'scrooloose/nerdtree.git'
@@ -484,6 +488,11 @@ autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
 let g:indentLine_char = '┆'
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#A4E57E'
+"  TSlime {{{2
+" ***************************************** "
+vmap <C-c><C-c> <Plug>SendSelectionToTmux
+nmap <C-c><C-c> <Plug>NormalModeSendToTmux
+nmap <C-c>r <Plug>SetTmuxVars
 " ----------------------------------------------"
 "  }}}  {{{1
 " vim: foldenable fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64
