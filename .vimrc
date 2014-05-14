@@ -113,6 +113,8 @@ set shortmess+=I               " Отключение приветственно
 " of the line
 set virtualedit=onemore
 
+" To work this with TMUX requires 'reattach-to-user-namespace'
+" plugin. See https://www.evernote.com/shard/s142/nl/15443303/c66a1bf1-1c5f-4433-8312-aa9076607552/
 set clipboard+=unnamed " Use system clipboard
 if has("unnamedplus")
     set clipboard=unnamed,unnamedplus
@@ -156,7 +158,6 @@ set ttimeoutlen=50
 set fillchars=fold:·,vert:\|
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×
 
-" TODO xxx
 " Show ↪ at the beginning of wrapped lines
 if has("linebreak")
     let &sbr = nr2char(8618).' '
@@ -168,12 +169,10 @@ language mes C
 
 set background=dark
 colorscheme hybrid
-"highlight SignColumn guibg=#272822
 
 if has("gui_macvim")
     " No toolbars, menu or scrollbars in the GUI
     set guifont=Anonymous\ Pro:h18
-    "set clipboard+=unnamed
     set vb t_vb=
     set guioptions-=m  "no menu
     set guioptions-=T  "no toolbar
@@ -184,7 +183,7 @@ if has("gui_macvim")
     set guioptions+=c " use console dialogs
 
     set cursorline
-    set colorcolumn
+    set colorcolumn=80
 endif
 
 "  "Mappings"  {{{1
@@ -287,7 +286,7 @@ map <leader>fl :silent %!cat -s<Return>
 " Tabularize lines
 map <Leader>ft :Tabularize /
 
-"  "Functions" 		    			        "  {{{1
+"  "Functions"  {{{1
 " ----------------------------------------- "
 function! ToggleListChars()
     if &list==1
@@ -379,14 +378,12 @@ function! SmartExit()
     endif
 endfunction
 
-"  "Plugin configs"    		    			"  {{{1
+"  "Plugin configs"  {{{1
 " ----------------------------------------- "
-
 "  Lite FDM(distraction free mode)  {{{2
 " ***************************************** "
-" Lite FDM Plugin
 nnoremap <Leader>d :LiteDFMToggle<CR>:silent !tmux set status<CR>
-"  dilimitMate  {{{2
+"  delimitMate  {{{2
 " ***************************************** "
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
@@ -396,7 +393,7 @@ let delimitMate_expand_space = 1
 let g:ctrlp_cmd = 'CtrlPMixed'			" search anything (in files, buffers and MRU files at the same time.)
 let g:ctrlp_working_path_mode = 'ra'	" search for nearest ancestor like .git, .hg, and the directory of the current file
 let g:ctrlp_match_window_bottom = 0		" show the match window at the top of the screen
-let g:ctrlp_by_filename = 1     " Search only by file name, Can be toggled by Ctrl-d
+let g:ctrlp_by_filename = 0     " Search only by file name, Can be toggled by Ctrl-d
 let g:ctrlp_max_height = 10				" maxiumum height of match window
 let g:ctrlp_switch_buffer = 'et'		" jump to a file if it's open already
 let g:ctrlp_use_caching = 1				" enable caching
@@ -416,9 +413,6 @@ imap <C-p> <esc>:CtrlPMRU<cr>
 
 nmap <C-b> :CtrlPBuffer<cr>
 imap <C-b> <esc>:CtrlPBuffer<cr>
-
-"nmap <C-x><C-f> <esc>:CtrlPMixed<cr>
-"imap <C-x><C-f> <esc>:CtrlPMixed<cr>
 
 "  NERDTree  {{{2
 " ***************************************** "
@@ -448,12 +442,6 @@ let g:syntastic_check_on_open = 1
 
 "  Airline  {{{2
 " ***************************************** "
-" Disable tabline, it's distracting
-" Try to use buff switching instead with Ctrl-P
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#left_sep=' '
-"let g:airline#extensions#tabline#left_alt_sep='¦'
-
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
@@ -462,26 +450,12 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_sep = ''
 
-"let g:airline_left_sep = '»'
-"let g:airline_left_sep = '▶'
-"let g:airline_right_sep = '«'
-"let g:airline_right_sep = '◀'
-"let g:airline_symbols.linenr = '␊'
-"let g:airline_symbols.linenr = '␤'
-"let g:airline_symbols.linenr = '¶'
-"let g:airline_symbols.branch = '⎇'
-"let g:airline_symbols.paste = 'ρ'
-"let g:airline_symbols.paste = 'Þ'
-"let g:airline_symbols.paste = '∥'
-"let g:airline_symbols.whitespace = 'Ξ'
-"let g:airline_powerline_fonts = 1
-
 "  YouCompleteMe  {{{2
 " ***************************************** "
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 
-" Disabel preview window of completion
+" Disable preview window of completion
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
@@ -492,11 +466,9 @@ nmap <Leader>sl : SessionList<cr>
 nmap <Leader>ss : SessionSave<cr>
 nmap <Leader>sS : SessionSaveAs<cr>
 
-let g:UltiSnipsExpandTrigger="<c-j>"
-
-"  Javascript-syntax  {{{2
+"  Ultisnips  {{{2
 " ***************************************** "
-"let g:javascript_conceal = 1
+let g:UltiSnipsExpandTrigger="<c-j>"
 
 "  JS Beautifier  {{{2
 " ***************************************** "
@@ -509,10 +481,6 @@ autocmd FileType html vnoremap <buffer> <leader>ff :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
 "  Indent guides {{{2
 " ***************************************** "
-"let g:indent_guides_auto_colors = 0
-"let g:indent_guides_guide_size = 1
-"hi IndentGuidesOdd  ctermbg=darkgrey
-"hi IndentGuidesEven ctermbg=lightgrey
 let g:indentLine_char = '┆'
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#A4E57E'
