@@ -1,17 +1,11 @@
+"  "Bundles"  {{{1
 " ----------------------------------------------"
-" "Bundles" {{{1
-" ----------------------------------------------"
-set nocompatible                "Turn off compability mode with Vi, we don't need that anymore
-filetype off " required
+set nocompatible
+filetype off
 
 set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
-" Test plugins ---------------------------------"
-" Show indent guides
-Plugin 'Yggdroot/indentLine'
-"Plugin 'nathanaelkane/vim-indent-guides'
-" ----------------------------------------------"
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'scrooloose/nerdtree.git'
@@ -23,8 +17,6 @@ Plugin 'tpope/vim-surround.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'godlygeek/tabular'
-"Plugin 'vim-scripts/YankRing.vim.git'
-"Plugin 'vim-scripts/diffchanges.vim.git'
 Plugin 'bling/vim-airline'
 Plugin 'vim-scripts/scratch.vim.git'
 Plugin 'vim-scripts/bufkill.vim.git'
@@ -40,6 +32,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
 " Text objects for indentation object vii/vai
 Plugin 'git://github.com/austintaylor/vim-indentobject.git'
+" Show indent guides
+Plugin 'Yggdroot/indentLine'
 
 " Javascript
 Plugin 'moll/vim-node'
@@ -48,8 +42,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'jamescarr/snipmate-nodejs' " Snippets for Node.js
 Plugin 'marijnh/tern_for_vim' " Js parser
 Plugin 'vim-scripts/JavaScript-Indent'
-" Javascript beautirfier
-Plugin 'maksimr/vim-jsbeautify'
+Plugin 'maksimr/vim-jsbeautify' " Javascript beautifier
 Plugin 'einars/js-beautify'
 
 " Syntax
@@ -59,84 +52,79 @@ Plugin 'briancollins/vim-jst'
 Plugin 'digitaltoad/vim-jade.git'
 
 " Colorschemes
-"Plugin 'sjl/badwolf'
 Plugin 'w0ng/vim-hybrid'
 
-" Misc
-
-" ----------------------------------------------"
-" "General" {{{1
+"  "General"  {{{1
 " ----------------------------------------------"
 syntax on
 filetype plugin indent on
 
-set hidden                      " Do not unload buffer, while switching to another one
-set noerrorbells                " No beeps
+set hidden                     " Do not unload buffer, while switching to another one
+set noerrorbells               " No beeps
 set novisualbell
 "set relativenumber
-set number                      " Show line numbers
-set backspace=indent,eol,start  " Makes backspace key more powerful.
-set showcmd                     " Show me what I'm typing
-set showmode                    " Show current mode.
-set confirm                     " Enable confirmation dialogs
-set wildmenu                    " Показывать меню в командной строке
+set number                     " Show line numbers
+set backspace=indent,eol,start " Makes backspace key more powerful.
+set showcmd                    " Show me what I'm typing
+set showmode                   " Show current mode.
+set confirm                    " Enable confirmation dialogs
+set wildmenu                   " Показывать меню в командной строке
 
-set noswapfile                  " Don't use swapfile
-set nobackup            		" Don't create annoying backup files
-set encoding=utf-8              " Set default encoding to UTF-8
-set autoread                    " Automatically reread changed files without asking me anything
+set noswapfile                 " Don't use swapfile
+set nobackup                   " Don't create annoying backup files
+set encoding=utf-8             " Set default encoding to UTF-8
+set autoread                   " Automatically reread changed files without asking me anything
 set laststatus=2
-set list          " подсвечивать некоторые символы <leader>i to toggle
+set list                       " подсвечивать некоторые символы <leader>ii to toggle
 
-set autoindent                          " Наследовать отступы предыдущей строки
-set smartindent                         " Включить 'умные' отступы
-set expandtab                           " Преобразование таба в пробелы
-set shiftwidth=2                        " Размер табуляции по умолчанию
+set autoindent                 " Наследовать отступы предыдущей строки
+set smartindent                " Включить 'умные' отступы
+set expandtab                  " Преобразование таба в пробелы
+set shiftwidth=2               " Размер табуляции по умолчанию
 set softtabstop=2
 set tabstop=2
 
-set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
+set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
 
 set undolevels=5000
 set undodir=~/.vim/undodir
 set undofile
 
-set showmatch                   " Do not show matching brackets by flickering
+set showmatch                  " Do not show matching brackets by flickering
 
-set incsearch                   " Shows the match while typing
-set hlsearch                    " Highlight found searches
+set incsearch                  " Shows the match while typing
+set hlsearch                   " Highlight found searches
 
-set ignorecase                  " Search case insensitive...
-set smartcase                   " ... but not when search pattern contains upper case characters
-set gdefault                    " 'g' flag for all commands like :%s/a/b
-set ruler       " Включение отображения позиции курсора (всё время)
+set ignorecase                 " Search case insensitive...
+set smartcase                  " ... but not when search pattern contains upper
+                               " case characters
+set gdefault                   " 'g' flag for all commands like :%s/a/b
+set ruler                      " Включение отображения позиции курсора (всё время)
 set nowrap
 
 set sidescroll=4
 
-set mouse=a     " Подключение мыши
-set mousehide   " Прятать указатель во время набора текста
+set mouse=a                    " Подключение мыши
+set mousehide                  " Прятать указатель во время набора текста
 
-set shortmess+=I    " Отключение приветственного сообщения
+set shortmess+=I               " Отключение приветственного сообщения
 
-" Move beyond actual end of the line. If set to 1 = one more column at the end of the line
-"set virtualedit=all
+" Move beyond actual end of the line. If set to 1 = one more column at the end
+" of the line
 set virtualedit=onemore
 
-" Use system clipboard
-set clipboard+=unnamed
+set clipboard+=unnamed " Use system clipboard
 if has("unnamedplus")
     set clipboard=unnamed,unnamedplus
 endif
 
 set scrolloff=5
-"
-" ----------------------------------------------"
-" "FileTypes" {{{1
+
+"  "FileTypes"  {{{1
 " ----------------------------------------------"
 au FileType javascript call JavaScriptFold()
-" ----------------------------------------------"
-" "Sessions" {{{1
+
+"  "Sessions"  {{{1
 " ----------------------------------------------"
 " Set cursor to the previous position while opening file
 autocmd BufReadPost * call SetCursorPosition()
@@ -144,16 +132,14 @@ autocmd BufReadPost * call SetCursorPosition()
 set sessionoptions=curdir,buffers,folds,tabpages,winpos,help,blank,resize,winpos,winsize " Опции сессий
 set sessionoptions+=unix,slash                                                           " Опции помогают переносить файлы сессий с *nix`ов в ms-windows и наоборот
 
-" ----------------------------------------------"
-" "Line" wrap {{{1
+"  "Line" wrap  {{{1
 " ----------------------------------------------"
 " Hard line wrap
 set textwidth=80
 set formatoptions=
 set formatoptions=rcqln " auto-wrap comments
 
-" ----------------------------------------------"
-" "Terminal modifications" {{{1
+"  "Terminal modifications"  {{{1
 " ----------------------------------------------"
 set t_Co=256	" 256 colors in terminal
 set ttyfast
@@ -164,14 +150,13 @@ set lazyredraw
 "A. Add the following to your vimrc.  >
 set ttimeoutlen=50
 
+"  "GUI modifications (color, shortcuts, etc.. "  {{{1
 " ----------------------------------------------"
-" "GUI modifications (color, shortcuts, etc.. " {{{1
-" ----------------------------------------------"
-
 " Установка символов для подсветки
 set fillchars=fold:·,vert:\|
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×
 
+" TODO xxx
 " Show ↪ at the beginning of wrapped lines
 if has("linebreak")
     let &sbr = nr2char(8618).' '
@@ -202,8 +187,7 @@ if has("gui_macvim")
     set colorcolumn
 endif
 
-" ----------------------------------------- "
-" "Mappings" {{{1
+"  "Mappings"  {{{1
 " ----------------------------------------- "
 let mapleader=","
 
@@ -224,8 +208,6 @@ nmap g# g#zz
 nmap * *zz
 nmap # #zz
 
-set pastetoggle=<Leader>p
-
 inoremap jk <Esc>
 snoremap jk <Esc>
 
@@ -241,9 +223,16 @@ vnoremap > >gv
 " Ctrl+S
 map <C-s> <esc>:w<CR>
 imap <C-s> <C-o>:w<CR>
+"
+" Yank to the end of the line
+nnoremap Y y$
 
-" ***************************************** "
-" Quick edit {{{2
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+"  Quick edit  {{{2
 " ***************************************** "
 
 " ,ev open _vimrc in new tab
@@ -255,26 +244,13 @@ nmap <leader>ei :e .gitignore<CR>
 " ,es Scratch buffer
 nmap <leader>es :Sscratch<cr>
 
-" ***************************************** "
-" Reset default mappings {{{2
-" ***************************************** "
-
-" Yank to the end of the line
-nnoremap Y y$
-
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
-
-" ***************************************** "
-" Splits and buffers {{{2
+"  Splits and buffers  {{{2
 " ***************************************** "
 
 " Создаем пустой сплит относительно текущего
-nmap <Leader><Bar> :vnew <bar> set nobuflisted<CR>
+"nmap <Leader><Bar> :vnew <bar> set nobuflisted<CR>
+"nmap <Leader>- :rightbelow new <bar> set nobuflisted<CR>
 nmap <Leader>\ :rightbelow vnew <bar> set nobuflisted<CR>
-nmap <Leader>- :rightbelow new <bar> set nobuflisted<CR>
 nmap <Leader>_ :new <bar> set nobuflisted<CR>
 
 " Quick window resizing
@@ -284,45 +260,34 @@ map <C-m> 2<C-w>+
 map <C-n> 2<C-w>-
 
 " Wipeout buffer but save split
-"nmap <Leader>qq :call SmartExit()<CR>
-" Wipeout buffer and close split
-"nnoremap <Leader>bw :bw<CR>
-" Close all
-"nmap <Leader>qa :qa<CR>
-
 nmap <leader>q :call SmartExit()<CR>
+" Wipeout buffer and close split
 nmap<leader>w :bw<CR>
 
+"  Utilities  {{{2
 " ***************************************** "
-" Utilities {{{2
-" ***************************************** "
-" Shortcut for :%s//
-nnoremap <leader>r :%s/\v
-vnoremap <leader>r :s/\v
-
 noremap K f<Space>s<CR><Esc>
 
 " Show hidden chars
-nmap <Leader>i :call ToggleListChars()<cr>
+nmap <Leader>ii :call ToggleListChars()<cr>
+map <leader>ig :IndentLinesToggle<cr>
 
 map <Leader>gw :set invwrap<CR>
-
-map <leader>g :GitGutterToggle<cr>
+map <leader>gg :GitGutterToggle<cr>
 
 " Reformat whole file
-nmap <Leader>ff gg=G''
+map <leader>f= gg=G``
 
 " Remove trailing spaces
-nmap <Leader>f<Space> :%s/\s\+$//<cr>''
+map <Leader>f<Space> :%s/\s\+$//<cr>''
 
 " Replace multiple empty lines with one
-nmap <leader>fl :silent %!cat -s<Return>
+map <leader>fl :silent %!cat -s<Return>
 
 " Tabularize lines
-vmap <Leader>ft :Tabularize /
+map <Leader>ft :Tabularize /
 
-" ----------------------------------------- "
-" "Functions" 		    			        " {{{1
+"  "Functions" 		    			        "  {{{1
 " ----------------------------------------- "
 function! ToggleListChars()
     if &list==1
@@ -414,23 +379,19 @@ function! SmartExit()
     endif
 endfunction
 
-" ----------------------------------------- "
-" "Plugin configs"    		    			" {{{1
+"  "Plugin configs"    		    			"  {{{1
 " ----------------------------------------- "
 
-" ***************************************** "
-" Lite FDM(distraction free mode) {{{2
+"  Lite FDM(distraction free mode)  {{{2
 " ***************************************** "
 " Lite FDM Plugin
 nnoremap <Leader>d :LiteDFMToggle<CR>:silent !tmux set status<CR>
-" ***************************************** "
-" dilimitMate {{{2
+"  dilimitMate  {{{2
 " ***************************************** "
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
 
-" ***************************************** "
-" CtrlP {{{2
+"  CtrlP  {{{2
 " ***************************************** "
 let g:ctrlp_cmd = 'CtrlPMixed'			" search anything (in files, buffers and MRU files at the same time.)
 let g:ctrlp_working_path_mode = 'ra'	" search for nearest ancestor like .git, .hg, and the directory of the current file
@@ -459,8 +420,7 @@ imap <C-b> <esc>:CtrlPBuffer<cr>
 "nmap <C-x><C-f> <esc>:CtrlPMixed<cr>
 "imap <C-x><C-f> <esc>:CtrlPMixed<cr>
 
-" ***************************************** "
-" NERDTree {{{2
+"  NERDTree  {{{2
 " ***************************************** "
 let NERDTreeWinPos = 'right'
 let NERDTreeIgnore = ['\~$', '*.pyc', '*.pyo']
@@ -474,8 +434,7 @@ let NERDTreeKeepTreeInNewTab=0
 let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
 let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
 
-" ***************************************** "
-" Syntastic {{{2
+"  Syntastic  {{{2
 " ***************************************** "
 let g:syntastic_enable_signs = 1
 "set statusline+=%#warningmsg#
@@ -487,8 +446,7 @@ let g:syntastic_warning_symbol = '∆'
 let g:syntastic_style_warning_symbol = '≈'
 let g:syntastic_check_on_open = 1
 
-" ***************************************** "
-" Airline {{{2
+"  Airline  {{{2
 " ***************************************** "
 " Disable tabline, it's distracting
 " Try to use buff switching instead with Ctrl-P
@@ -518,8 +476,7 @@ let g:airline_right_sep = ''
 "let g:airline_symbols.whitespace = 'Ξ'
 "let g:airline_powerline_fonts = 1
 
-" ***************************************** "
-" YouCompleteMe {{{2
+"  YouCompleteMe  {{{2
 " ***************************************** "
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
@@ -529,8 +486,7 @@ let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
 
-" ***************************************** "
-" SessionMan {{{2
+"  SessionMan  {{{2
 " ***************************************** "
 nmap <Leader>sl : SessionList<cr>
 nmap <Leader>ss : SessionSave<cr>
@@ -538,14 +494,11 @@ nmap <Leader>sS : SessionSaveAs<cr>
 
 let g:UltiSnipsExpandTrigger="<c-j>"
 
-" ***************************************** "
-" Javascript-syntax {{{2
+"  Javascript-syntax  {{{2
 " ***************************************** "
 "let g:javascript_conceal = 1
 
-
-" ***************************************** "
-" JS Beautifier {{{2
+"  JS Beautifier  {{{2
 " ***************************************** "
 autocmd FileType javascript nnoremap <buffer>  <leader>ff :call JsBeautify()<cr>
 autocmd FileType html nnoremap <buffer> <leader>ff :call HtmlBeautify()<cr>
@@ -554,8 +507,7 @@ autocmd FileType css nnoremap <buffer> <leader>ff :call CSSBeautify()<cr>
 autocmd FileType javascript vnoremap <buffer>  <leader>ff :call RangeJsBeautify()<cr>
 autocmd FileType html vnoremap <buffer> <leader>ff :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
-" ***************************************** "
-" Indent guides{{{2
+"  Indent guides {{{2
 " ***************************************** "
 "let g:indent_guides_auto_colors = 0
 "let g:indent_guides_guide_size = 1
@@ -565,8 +517,7 @@ let g:indentLine_char = '┆'
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#A4E57E'
 " ----------------------------------------------"
-" THE END }}}
-" }}} {{{1
+"  }}}  {{{1
 " vim: foldenable fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64
 " fileencoding=utf-8
 " " }}}
