@@ -9,8 +9,8 @@ call vundle#rc()
 
 " Test plugins ---------------------------------"
 " Show indent guides
-"Plugin 'Yggdroot/indentLine'
-Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'Yggdroot/indentLine'
+"Plugin 'nathanaelkane/vim-indent-guides'
 " ----------------------------------------------"
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -24,7 +24,7 @@ Plugin 'tpope/vim-repeat.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'godlygeek/tabular'
 "Plugin 'vim-scripts/YankRing.vim.git'
-Plugin 'vim-scripts/diffchanges.vim.git'
+"Plugin 'vim-scripts/diffchanges.vim.git'
 Plugin 'bling/vim-airline'
 Plugin 'vim-scripts/scratch.vim.git'
 Plugin 'vim-scripts/bufkill.vim.git'
@@ -59,7 +59,7 @@ Plugin 'briancollins/vim-jst'
 Plugin 'digitaltoad/vim-jade.git'
 
 " Colorschemes
-Plugin 'sjl/badwolf'
+"Plugin 'sjl/badwolf'
 Plugin 'w0ng/vim-hybrid'
 
 " Misc
@@ -123,16 +123,18 @@ set shortmess+=I    " Отключение приветственного соо
 "set virtualedit=all
 set virtualedit=onemore
 
+" Use system clipboard
+set clipboard+=unnamed
+if has("unnamedplus")
+    set clipboard=unnamed,unnamedplus
+endif
+
 set scrolloff=5
 "
 " ----------------------------------------------"
 " "FileTypes" {{{1
 " ----------------------------------------------"
 au FileType javascript call JavaScriptFold()
-" ----------------------------------------------"
-" "Folding" {{{1
-" ----------------------------------------------"
-"set foldnestmax=2
 " ----------------------------------------------"
 " "Sessions" {{{1
 " ----------------------------------------------"
@@ -166,7 +168,6 @@ set ttimeoutlen=50
 " "GUI modifications (color, shortcuts, etc.. " {{{1
 " ----------------------------------------------"
 
-
 " Установка символов для подсветки
 set fillchars=fold:·,vert:\|
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×
@@ -180,15 +181,10 @@ set background=dark
 " Set interface language to English
 language mes C
 
-"colorscheme pablo
-"colorscheme badwolf
+set background=dark
 colorscheme hybrid
 "highlight SignColumn guibg=#272822
 
-set clipboard+=unnamed
-if has("unnamedplus")
-    set clipboard=unnamed,unnamedplus
-endif
 if has("gui_macvim")
     " No toolbars, menu or scrollbars in the GUI
     set guifont=Anonymous\ Pro:h18
@@ -221,11 +217,8 @@ cnoremap <C-l> <Right>
 cnoremap <C-j> <Down>
 cnoremap <C-k> <Up>
 
-nnoremap <silent> n nzz:call HLNext(0.4)<cr>
-nnoremap <silent> N Nzz:call HLNext(0.4)<cr>
-
-"nmap n nzz
-"nmap N Nzz
+nmap n nzz
+nmap N Nzz
 nmap g* g*zz
 nmap g# g#zz
 nmap * *zz
@@ -331,36 +324,6 @@ vmap <Leader>ft :Tabularize /
 " ----------------------------------------- "
 " "Functions" 		    			        " {{{1
 " ----------------------------------------- "
-"function! JavaScriptFold()
-    ""syn match   javaScriptFunction      "\<function\>"
-    ""syn region  javaScriptFunctionFold  start="\<function\>.*[^};]$" end="^\z1}.*$" transparent fold keepend
-
-    ""syn sync match javaScriptSync       grouphere javaScriptFunctionFold "\<function\>"
-    ""syn sync match javaScriptSync       grouphere NONE "^}"
-
-    "setl nofoldenable
-    "setl foldmethod=syntax
-    "setl foldlevelstart=0
-    "setl foldnestmax=1
-    ""setl foldtext=getline(v:foldstart)
-    ""syn sync fromstart
-    ""syn sync maxlines=100
-"endfunction
-
-"=====[ Highlight the search match in red ]=============
-function! HLNext (blinktime)
-  highlight WhiteOnRed ctermfg=white ctermbg=blue
-  let [bufnum, lnum, col, off] = getpos('.')
-  let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
-  let target_pat = '\c\%#'.@/
-  let ring = matchadd('WhiteOnRed', target_pat, 101)
-  redraw
-  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
-  call matchdelete(ring)
-  redraw
-endfunction
-
-
 function! ToggleListChars()
     if &list==1
         :set nolist
@@ -456,33 +419,10 @@ endfunction
 " ----------------------------------------- "
 
 " ***************************************** "
-" Indent line {{{2
- let g:indentLine_char = '┆'
- let g:indentLine_color_term = 239
- let g:indentLine_color_gui = '#A4E57E'
-
-" ***************************************** "
-" ***************************************** "
-" Goyo(distraction free mode) {{{2
+" Lite FDM(distraction free mode) {{{2
 " ***************************************** "
 " Lite FDM Plugin
 nnoremap <Leader>d :LiteDFMToggle<CR>:silent !tmux set status<CR>
-"let g:goyo_margin_top=1
-"let g:goyo_margin_bottom=2
-"let g:goyo_width=100
-
-"function! s:goyo_before()
-    "set nonu
-    "silent !tmux set status off
-"endfunction
-
-"function! s:goyo_after()
-    "set nu
-    "silent !tmux set status on
-"endfunction
-
-"let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
-
 " ***************************************** "
 " dilimitMate {{{2
 " ***************************************** "
@@ -599,34 +539,33 @@ nmap <Leader>sS : SessionSaveAs<cr>
 let g:UltiSnipsExpandTrigger="<c-j>"
 
 " ***************************************** "
-" YankRing {{{2
-" ***************************************** "
-"let g:yankring_replace_n_pkey = '<Leader>j'
-"let g:yankring_replace_n_nkey = '<Leader>k'
-"let g:yankring_replace_n_pkey = '<leader>h'
-"let g:yankring_replace_n_nkey = '<leader>l'
-
-" ***************************************** "
 " Javascript-syntax {{{2
 " ***************************************** "
 "let g:javascript_conceal = 1
+
+
 " ***************************************** "
 " JS Beautifier {{{2
 " ***************************************** "
-autocmd FileType javascript nnoremap <buffer>  <c-f> :call JsBeautify()<cr>
-" for html
-autocmd FileType html nnoremap <buffer> <c-f> :call HtmlBeautify()<cr>
-" for css or scss
-autocmd FileType css nnoremap <buffer> <c-f> :call CSSBeautify()<cr>
+autocmd FileType javascript nnoremap <buffer>  <leader>ff :call JsBeautify()<cr>
+autocmd FileType html nnoremap <buffer> <leader>ff :call HtmlBeautify()<cr>
+autocmd FileType css nnoremap <buffer> <leader>ff :call CSSBeautify()<cr>
 
-autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
-" for html
-autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
-" for css or scss
-autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
+autocmd FileType javascript vnoremap <buffer>  <leader>ff :call RangeJsBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <leader>ff :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
+" ***************************************** "
+" Indent guides{{{2
+" ***************************************** "
+"let g:indent_guides_auto_colors = 0
+"let g:indent_guides_guide_size = 1
+"hi IndentGuidesOdd  ctermbg=darkgrey
+"hi IndentGuidesEven ctermbg=lightgrey
+let g:indentLine_char = '┆'
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#A4E57E'
 " ----------------------------------------------"
 " THE END }}}
-" ----------------------------------------------"
 " }}} {{{1
 " vim: foldenable fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64
 " fileencoding=utf-8
