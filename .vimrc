@@ -235,6 +235,10 @@ noremap k gk
 noremap gj j
 noremap gk k
 
+" Yank ring
+map <leader>p "1p
+map <leader>p "1P
+
 "  Quick edit  {{{2
 " ***************************************** "
 
