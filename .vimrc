@@ -130,6 +130,10 @@ set scrolloff=5
 " ----------------------------------------------"
 au FileType javascript call JavaScriptFold()
 
+"  "Folding"  {{{1
+" ----------------------------------------------"
+set foldlevelstart=99 " Open all folds on start
+set foldnestmax=3
 "  "Sessions"  {{{1
 " ----------------------------------------------"
 " Set cursor to the previous position while opening file
