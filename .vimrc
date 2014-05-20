@@ -8,8 +8,7 @@ call vundle#rc()
 
 " Testing plugin {{{2
 Plugin 'jgdavey/tslime.vim'
-"
-
+" }}}
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'scrooloose/nerdtree.git'
@@ -66,7 +65,7 @@ filetype plugin indent on
 set hidden                     " Do not unload buffer, while switching to another one
 set noerrorbells               " No beeps
 set novisualbell
-"set relativenumber
+
 set number                     " Show line numbers
 set backspace=indent,eol,start " Makes backspace key more powerful.
 set showcmd                    " Show me what I'm typing
@@ -77,9 +76,10 @@ set wildmenu                   " Показывать меню в командн
 set noswapfile                 " Don't use swapfile
 set nobackup                   " Don't create annoying backup files
 set encoding=utf-8             " Set default encoding to UTF-8
-set autoread                   " Automatically reread changed files without asking me anything
+"set autoread                   " Automatically reread changed files without asking me anything
+
 set laststatus=2
-set list                       " подсвечивать некоторые символы <leader>ii to toggle
+set list                       " подсвечивать некоторые символы 
 
 set autoindent                 " Наследовать отступы предыдущей строки
 set smartindent                " Включить 'умные' отступы
@@ -124,41 +124,25 @@ if has("unnamedplus")
     set clipboard=unnamed,unnamedplus
 endif
 
-set scrolloff=5
-
-"  "FileTypes"  {{{1
-" ----------------------------------------------"
-au FileType javascript call JavaScriptFold()
-
-"  "Folding"  {{{1
-" ----------------------------------------------"
-set foldlevelstart=99 " Open all folds on start
-set foldnestmax=3
-"  "Sessions"  {{{1
-" ----------------------------------------------"
-" Set cursor to the previous position while opening file
-autocmd BufReadPost * call SetCursorPosition()
-
-set sessionoptions=curdir,buffers,folds,tabpages,winpos,help,blank,resize,winpos,winsize " Опции сессий
-set sessionoptions+=unix,slash                                                           " Опции помогают переносить файлы сессий с *nix`ов в ms-windows и наоборот
-
-"  "Line" wrap  {{{1
-" ----------------------------------------------"
 " Hard line wrap
 set textwidth=80
 set formatoptions=
 set formatoptions=rcqln " auto-wrap comments
 
-"  "Terminal modifications"  {{{1
-" ----------------------------------------------"
-set t_Co=256	" 256 colors in terminal
-set ttyfast
-set lazyredraw
+set scrolloff=5
 
-"Airline
-"Q. There is a pause when leaving insert mode.
-"A. Add the following to your vimrc.  >
-set ttimeoutlen=50
+"  "Folding"  {{{1
+" ----------------------------------------------"
+set foldlevelstart=99 " Open all folds on start
+set foldnestmax=3
+"  "FileTypes"  {{{1
+" ----------------------------------------------"
+au FileType javascript call JavaScriptFold()
+
+"  "Sessions"  {{{1
+" ----------------------------------------------"
+set sessionoptions=curdir,buffers,folds,tabpages,winpos,help,blank,resize,winpos,winsize " Опции сессий
+set sessionoptions+=unix,slash                                                           " Опции помогают переносить файлы сессий с *nix`ов в ms-windows и наоборот
 
 "  "GUI modifications (color, shortcuts, etc.. "  {{{1
 " ----------------------------------------------"
@@ -177,6 +161,15 @@ language mes C
 
 set background=dark
 colorscheme hybrid
+
+set t_Co=256	" 256 colors in terminal
+set ttyfast
+set lazyredraw
+
+"Airline
+"Q. There is a pause when leaving insert mode.
+"A. Add the following to your vimrc.  >
+set ttimeoutlen=50
 
 if has("gui_macvim")
     " No toolbars, menu or scrollbars in the GUI
@@ -239,10 +232,6 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-" Yank ring
-map <leader>p "1p
-map <leader>p "1P
-
 "  Quick edit  {{{2
 " ***************************************** "
 
@@ -253,7 +242,7 @@ nmap <leader>ev :e $MYVIMRC<CR>
 nmap <leader>ei :e .gitignore<CR>
 
 " ,es Scratch buffer
-nmap <leader>es :Sscratch<cr>
+nmap <leader>es :Scratch<cr>
 
 "  Splits and buffers  {{{2
 " ***************************************** "
@@ -269,18 +258,9 @@ map <C-k> 2<C-w>>
 map <C-j> 2<C-w><
 map <C-m> 2<C-w>+
 map <C-n> 2<C-w>-
-
-" Wipeout buffer but save split
-nmap <leader>q :call SmartExit()<CR>
-" Wipeout buffer and close split
-nmap<leader>w :bw<CR>
-
 "  Utilities  {{{2
 " ***************************************** "
-noremap K f<Space>s<CR><Esc>
-
 " Show hidden chars
-nmap <Leader>ii :call ToggleListChars()<cr>
 map <leader>ig :IndentLinesToggle<cr>
 
 map <Leader>gw :set invwrap<CR>
@@ -294,102 +274,8 @@ map <Leader>f<Space> :%s/\s\+$//<cr>''
 
 " Replace multiple empty lines with one
 map <leader>fl :silent %!cat -s<Return>
-
-" Tabularize lines
-map <Leader>ft :Tabularize /
-
 "  "Functions"  {{{1
 " ----------------------------------------- "
-function! ToggleListChars()
-    if &list==1
-        :set nolist
-    else
-        :set list
-    endif
-endfunction
-
-function! SetCursorPosition()
-    if &filetype !~ 'svn\|commit\c'
-        if line("'\"") > 0 && line("'\"") <= line("$")
-            exe "normal! g`\""
-            normal! zz
-        endif
-    end
-endfunction
-
-" http://stackoverflow.com/questions/6552295/deleting-all-empty-buffers-in-vim
-function! DeleteEmptyBuffers()
-    let empty = []
-    let [i, n] = [1, bufnr('$')]
-    while i <= n
-        if bufexists(i) && bufname(i) == ''
-            call add(empty, i)
-        endif
-        let i += 1
-    endwhile
-    if len(empty) > 0
-        exe 'bdelete' join(empty, ' ')
-    endif
-endfunction
-
-function! CountListedBuffers()
-    let cnt = 0
-    for nr in range(1,bufnr("$"))
-        if buflisted(nr)
-            let cnt += 1
-        endif
-    endfor
-    return cnt
-endfunction
-
-function! SmartExit()
-    let s:BufferToKill = bufnr('%')
-    let s:EmptyBuffer = 0
-
-    if bufname('%') == '' && ! &modified && &modifiable
-        if &buftype == 'nofile' && &swapfile == 0
-            " Is scratch buffer, not empty
-        else
-            let s:EmptyBuffer = 1
-        endif
-    endif
-
-    " Get a list of all windows which have this buffer loaded
-    let s:WindowListWithBufferLoaded = []
-    let i = 1
-    let buf = winbufnr(i)
-    while buf != -1
-        if buf == s:BufferToKill
-            let s:WindowListWithBufferLoaded += [i]
-        endif
-        let i = i + 1
-        let buf = winbufnr(i)
-    endwhile
-
-    " Check that the buffer is last
-    if(CountListedBuffers() < 2)
-        let s:LastBuffer = 1
-    else
-        let s:LastBuffer = 0
-    endif
-
-    if s:LastBuffer
-        if len(s:WindowListWithBufferLoaded) > 1
-            execute "close"
-        else
-            if ! s:EmptyBuffer
-                execute "bw | bw"
-            else
-                execute "q"
-            endif
-        endif
-    else
-        let g:BufKillActionWhenBufferDisplayedInAnotherWindow="kill"
-        execute "BW"
-        let g:BufKillActionWhenBufferDisplayedInAnotherWindow="confirm"
-    endif
-endfunction
-
 "  "Plugin configs"  {{{1
 " ----------------------------------------- "
 "  Lite FDM(distraction free mode)  {{{2
@@ -493,14 +379,15 @@ autocmd FileType html vnoremap <buffer> <leader>ff :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
 "  Indent guides {{{2
 " ***************************************** "
-let g:indentLine_char = '┆'
+"let g:indentLine_char = '┆'
+let g:indentLine_char = '|'
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#A4E57E'
 "  TSlime {{{2
 " ***************************************** "
-vmap <C-c><C-c> <Plug>SendSelectionToTmux
-nmap <C-c><C-c> <Plug>NormalModeSendToTmux
-nmap <C-c>r <Plug>SetTmuxVars
+vmap <leader>s <Plug>SendSelectionToTmux
+nmap <leader>s <Plug>NormalModeSendToTmux
+nmap <leader>r <Plug>SetTmuxVars
 " ----------------------------------------------"
 "  }}}  {{{1
 " vim: foldenable fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64
