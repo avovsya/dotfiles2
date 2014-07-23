@@ -135,6 +135,7 @@ set scrolloff=5
 " ----------------------------------------------"
 set foldlevelstart=99 " Open all folds on start
 set foldnestmax=3
+set foldtext=CustomFoldText()
 "  "FileTypes"  {{{1
 " ----------------------------------------------"
 au FileType javascript call JavaScriptFold()
@@ -260,14 +261,8 @@ map <C-m> 2<C-w>+
 map <C-n> 2<C-w>-
 "  Utilities  {{{2
 " ***************************************** "
-" Show hidden chars
-map <leader>ig :IndentLinesToggle<cr>
-
 map <Leader>gw :set invwrap<CR>
 map <leader>gg :GitGutterToggle<cr>
-
-" Reformat whole file
-map <leader>f= gg=G``
 
 " Remove trailing spaces
 map <Leader>f<Space> :%s/\s\+$//<cr>''
@@ -276,6 +271,28 @@ map <Leader>f<Space> :%s/\s\+$//<cr>''
 map <leader>fl :silent %!cat -s<Return>
 "  "Functions"  {{{1
 " ----------------------------------------- "
+fu! CustomFoldText()
+    "get first non-blank line
+    let fs = v:foldstart
+    while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+    endwhile
+    if fs > v:foldend
+     let line = getline(v:foldstart)
+    else
+     let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+    endif
+
+    let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+    let foldSize = 1 + v:foldend - v:foldstart
+    let foldSizeStr = " " . foldSize . " lines "
+    let foldLevelStr = repeat("+--", v:foldlevel)
+    let lineCount = line("$")
+    "let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
+    "let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
+    let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr))
+    "return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+    return line . expansionString . foldSizeStr . foldLevelStr
+endf
 "  "Plugin configs"  {{{1
 " ----------------------------------------- "
 "  Lite FDM(distraction free mode)  {{{2
