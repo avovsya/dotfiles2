@@ -254,6 +254,11 @@ nmap <leader>es :Scratch<cr>
 nmap <Leader>\ :rightbelow vnew <bar> set nobuflisted<CR>
 nmap <Leader>_ :new <bar> set nobuflisted<CR>
 
+" Sane alternate buffer switching when using vim-vinegar and
+" NERDTree. When you open file using vindegar - the alternate
+" file would be the NERDTree window. This will fix it
+nmap <C-^> <C-b><CR>
+
 " Quick window resizing
 map <C-k> 2<C-w>>
 map <C-j> 2<C-w><
