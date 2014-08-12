@@ -7,7 +7,6 @@ set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " Testing plugin {{{2
-Plugin 'Rykka/clickable.vim'
 Plugin 'MattesGroeger/vim-bookmarks'
 Plugin 'sheerun/vim-polyglot'
 " }}}
@@ -34,14 +33,14 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
 
 " Text objects for indentation object vii/vai
-Plugin 'austintaylor/vim-indentobject.git'
-
+Plugin 'git://github.com/austintaylor/vim-indentobject.git'
 " Show indent guides
 Plugin 'Yggdroot/indentLine'
 
 " Javascript
 Plugin 'moll/vim-node'
 Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
 Plugin 'jamescarr/snipmate-nodejs' " Snippets for Node.js
 Plugin 'marijnh/tern_for_vim' " Js parser
 Plugin 'vim-scripts/JavaScript-Indent'
@@ -156,6 +155,7 @@ colorscheme hybrid
 
 set t_Co=256	" 256 colors in terminal
 set ttyfast
+set lazyredraw
 
 "Airline
 "Q. There is a pause when leaving insert mode.
@@ -211,18 +211,19 @@ noremap gk k
 
 "  Quick edit  {{{2
 " ***************************************** "
-
 " ,ev open _vimrc in new tab
 nmap <leader>ev :e $MYVIMRC<CR>
 "
 " ,ei open gitignore in new tab
 nmap <leader>ei :e .gitignore<CR>
+
+
 "  Splits and buffers  {{{2
 " ***************************************** "
 
 nmap <Leader>q :BW<CR>
 
-nmap <C-w>v :vnew <bar> set nobuflisted<CR>
+nmap <C-w>v :rightbelow vnew <bar> set nobuflisted<CR>
 nmap <C-w>s :rightbelow new <bar> set nobuflisted<CR>
 
 " Quick window resizing
