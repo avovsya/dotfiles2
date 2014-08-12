@@ -8,7 +8,6 @@ call vundle#rc()
 
 " Testing plugin {{{2
 Plugin 'MattesGroeger/vim-bookmarks'
-Plugin 'sheerun/vim-polyglot'
 " }}}
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -132,8 +131,7 @@ set foldtext=CustomFoldText()
 
 "  "FileTypes"  {{{1
 " ----------------------------------------------"
-"au FileType javascript call JavaScriptFold()
-au BufNewFile,BufRead *.js call JavaScriptFold()
+au FileType javascript call JavaScriptFold() | set foldlevelstart=99
 
 "  "GUI modifications (color, shortcuts, etc.. )"  {{{1
 " ----------------------------------------------"
@@ -155,7 +153,6 @@ colorscheme hybrid
 
 set t_Co=256	" 256 colors in terminal
 set ttyfast
-set lazyredraw
 
 "Airline
 "Q. There is a pause when leaving insert mode.
