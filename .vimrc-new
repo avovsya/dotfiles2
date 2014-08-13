@@ -131,13 +131,30 @@ set foldtext=CustomFoldText()
 
 "  "FileTypes"  {{{1
 " ----------------------------------------------"
-au FileType javascript call JavaScriptFold() | set foldlevelstart=99
+
+augroup configgroup
+    autocmd!
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md call StripTrailingWhitespaces()
+    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+    autocmd BufEnter Makefile setlocal noexpandtab
+
+    autocmd FileType javascript call JavaScriptFold() | set foldlevelstart=99
+augroup END
 
 "  "GUI modifications (color, shortcuts, etc.. )"  {{{1
 " ----------------------------------------------"
 " Установка символов для подсветки
 set fillchars=fold:·,vert:\|
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×
+
+" allows cursor change in tmux mode
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 
 " Show ↪ at the beginning of wrapped lines
 if has("linebreak")
@@ -177,6 +194,8 @@ endif
 
 "  "Mappings"  {{{1
 " ----------------------------------------- "
+"  General {{{2
+" ***************************************** "
 let mapleader=","
 
 nmap n nzz
@@ -224,10 +243,10 @@ nmap <C-w>v :rightbelow vnew <bar> set nobuflisted<CR>
 nmap <C-w>s :rightbelow new <bar> set nobuflisted<CR>
 
 " Quick window resizing
-map <C-k> 2<C-w>>
-map <C-j> 2<C-w><
-map <C-m> 2<C-w>+
-map <C-n> 2<C-w>-
+map <C-k> 2<C-w>+
+map <C-j> 2<C-w>-
+map <C-h> 2<C-w><
+map <C-l> 2<C-w>>
 
 "  Utilities  {{{2
 " ***************************************** "
@@ -235,13 +254,25 @@ map <Leader>gw :set invwrap<CR>
 map <leader>gg :GitGutterToggle<cr>
 
 " Remove trailing spaces
-map <Leader>f<Space> :%s/\s\+$//<cr>''
+map <Leader>f<Space> :call StripTrailingWhitespaces()<CR>
 
 " Replace multiple empty lines with one
 map <leader>fl :silent %!cat -s<Return>
 
 "  "Functions"  {{{1
 " ----------------------------------------- "
+" strips trailing whitespace at the end of files. this
+" is called on buffer write in the autogroup above.
+fu! StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endf
+
 fu! CustomFoldText()
     "get first non-blank line
     let fs = v:foldstart
@@ -256,13 +287,12 @@ fu! CustomFoldText()
     let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
     let foldSize = 1 + v:foldend - v:foldstart
     let foldSizeStr = " " . foldSize . " lines "
-    let foldLevelStr = repeat("+--", v:foldlevel)
+    "let foldLevelStr = repeat("+--", v:foldlevel)
+    let foldLevelStr = repeat("+-", v:foldlevel - 1)
     let lineCount = line("$")
-    "let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
-    "let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
     let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr))
-    "return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-    return line . expansionString . foldSizeStr . foldLevelStr
+    "return line . expansionString . foldSizeStr . foldLevelStr
+    return foldLevelStr . line . expansionString . foldSizeStr
 endf
 
 "  "Plugin configs"  {{{1
