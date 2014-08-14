@@ -208,7 +208,8 @@ nmap # #zz
 inoremap jk <Esc>
 snoremap jk <Esc>
 
-nnoremap <silent><Esc> :nohlsearch<CR><ESC>
+nnoremap <Leader><Leader> :nohlsearch<CR><ESC>
+
 
 " Visually select the text that was last edited/pasted
 nmap gV `[v`]
