@@ -7,7 +7,7 @@ set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " Testing plugin {{{2
-Plugin 'MattesGroeger/vim-bookmarks'
+Plugin 'kshenoy/vim-signature'
 " }}}
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -30,6 +30,7 @@ Plugin 'tmhedberg/matchit'
 Plugin 'honza/vim-snippets'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'takac/vim-hardtime'
 
 " Text objects for indentation object vii/vai
 Plugin 'git://github.com/austintaylor/vim-indentobject.git'
@@ -298,6 +299,10 @@ endf
 
 "  "Plugin configs"  {{{1
 " ----------------------------------------- "
+"  "Hard Time" {{{2
+" ***************************************** "
+let g:hardtime_default_on = 1
+
 "  delimitMate  {{{2
 " ***************************************** "
 let delimitMate_expand_cr = 2
