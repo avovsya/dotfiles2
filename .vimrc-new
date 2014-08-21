@@ -8,6 +8,8 @@ call vundle#rc()
 
 " Testing plugin {{{2
 Plugin 'kshenoy/vim-signature'
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
 " }}}
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -27,7 +29,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-vinegar'
 Plugin 'Raimondi/delimitMate'
 Plugin 'tmhedberg/matchit'
-Plugin 'honza/vim-snippets'
+Plugin 'avovsya/vim-snippets'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'takac/vim-hardtime'
@@ -252,6 +254,7 @@ map <C-l> 2<C-w>>
 
 "  Utilities  {{{2
 " ***************************************** "
+map <leader>gd :Goyo<CR>
 map <Leader>gw :set invwrap<CR>
 map <leader>gg :GitGutterToggle<cr>
 
@@ -299,6 +302,32 @@ endf
 
 "  "Plugin configs"  {{{1
 " ----------------------------------------- "
+"  "Goyo and LimeLight" {{{2
+" ***************************************** "
+let g:goyo_margin_top=0
+let g:goyo_margin_bottom=0
+
+fu! s:goyo_enter()
+    Limelight
+    set nonu
+    set fullscreen
+    set scrolloff=999
+    set linespace=4
+endfu
+
+fu! s:goyo_leave()
+    Limelight!
+    set nu
+    set nofullscreen
+    set scrolloff=5
+    set linespace=0
+endfu
+
+autocmd! User GoyoEnter
+autocmd! User GoyoLeave
+autocmd  User GoyoEnter call <SID>goyo_enter()
+autocmd  User GoyoLeave call <SID>goyo_leave()
+
 "  "Hard Time" {{{2
 " ***************************************** "
 let g:hardtime_default_on = 1
