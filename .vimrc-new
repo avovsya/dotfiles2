@@ -10,6 +10,10 @@ call vundle#rc()
 Plugin 'kshenoy/vim-signature'
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
+
+" Note taking
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-notes'
 " }}}
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -302,6 +306,12 @@ endf
 
 "  "Plugin configs"  {{{1
 " ----------------------------------------- "
+"  "Vim-notes" {{{2
+" ***************************************** "
+let g:notes_directories = ['~/Dropbox/Notes']
+let g:notes_suffix = '.txt'
+"let g:notes_smart_quotes = 0
+
 "  "Goyo and LimeLight" {{{2
 " ***************************************** "
 let g:goyo_margin_top=0
@@ -331,6 +341,13 @@ autocmd  User GoyoLeave call <SID>goyo_leave()
 "  "Hard Time" {{{2
 " ***************************************** "
 let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = [ "CustomPatt[ae]rn", "NERD.*" ]
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_allow_different_key = 1
+let g:hardtime_maxcount = 2
+
+let g:list_of_normal_keys = [ "h", "j", "k", "l" ]
+let g:list_of_visual_keys = [ "h", "j", "k", "l" ]
 
 "  delimitMate  {{{2
 " ***************************************** "
