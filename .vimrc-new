@@ -205,6 +205,9 @@ endif
 " ***************************************** "
 let mapleader=","
 
+" Expand %% in command line to current file path
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+
 nmap n nzz
 nmap N Nzz
 nmap g* g*zz
@@ -236,10 +239,13 @@ noremap gk k
 "  Quick edit  {{{2
 " ***************************************** "
 " ,ev open _vimrc in new tab
-nmap <leader>ev :e $MYVIMRC<CR>
-"
+map <leader>ev :e $MYVIMRC<CR>
+
+" ,ew open file in same directory as current file
+map <leader>ew :e %%
+
 " ,ei open gitignore in new tab
-nmap <leader>ei :e .gitignore<CR>
+map <leader>ei :e .gitignore<CR>
 
 
 "  Splits and buffers  {{{2
