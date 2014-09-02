@@ -7,9 +7,6 @@ set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " Testing plugin {{{2
-Plugin 'kshenoy/vim-signature'
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
 
 " Note taking
 Plugin 'xolox/vim-misc'
@@ -37,6 +34,9 @@ Plugin 'avovsya/vim-snippets'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'takac/vim-hardtime'
+Plugin 'kshenoy/vim-signature'
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
 
 " Text objects for indentation object vii/vai
 Plugin 'git://github.com/austintaylor/vim-indentobject.git'
@@ -47,7 +47,6 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'moll/vim-node'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
-Plugin 'jamescarr/snipmate-nodejs' " Snippets for Node.js
 Plugin 'marijnh/tern_for_vim' " Js parser
 Plugin 'vim-scripts/JavaScript-Indent'
 Plugin 'maksimr/vim-jsbeautify' " Javascript beautifier
@@ -245,6 +244,8 @@ map <leader>ev :e $MYVIMRC<CR>
 " ,ew open file in same directory as current file
 map <leader>ew :e %%
 
+map <leader>ed :NERDTreeFind<CR>
+
 " ,ei open gitignore in new tab
 map <leader>ei :e .gitignore<CR>
 
@@ -389,13 +390,14 @@ imap <C-b> <esc>:CtrlPBuffer<cr>
 
 "  NERDTree  {{{2
 " ***************************************** "
-let NERDTreeWinPos = 'right'
+let NERDTreeWinPos = 'left'
 let NERDTreeIgnore = ['\~$', '*.pyc', '*.pyo']
 
 nnoremap <Bs> :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=0
 let NERDTreeChDirMode=2
-let NERDTreeQuitOnOpen=1
+"let NERDTreeQuitOnOpen=1
+let NERDTreeQuitOnOpen=0
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=0
 let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
