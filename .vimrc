@@ -7,12 +7,14 @@ set runtimepath+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " Testing plugin {{{2
-Plugin 'jgdavey/tslime.vim'
+
+" Note taking
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-notes'
 " }}}
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'scrooloose/nerdtree.git'
-Plugin 'vim-scripts/sessionman.vim.git'
 Plugin 'scrooloose/syntastic.git'
 Plugin 'kien/ctrlp.vim.git'
 Plugin 'vim-scripts/IndexedSearch.git'
@@ -21,7 +23,6 @@ Plugin 'tpope/vim-repeat.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
-Plugin 'vim-scripts/scratch.vim.git'
 Plugin 'vim-scripts/bufkill.vim.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
@@ -29,10 +30,14 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-vinegar'
 Plugin 'Raimondi/delimitMate'
 Plugin 'tmhedberg/matchit'
-Plugin 'honza/vim-snippets'
-Plugin 'bilalq/lite-dfm'
+Plugin 'avovsya/vim-snippets'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'takac/vim-hardtime'
+Plugin 'kshenoy/vim-signature'
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
+
 " Text objects for indentation object vii/vai
 Plugin 'git://github.com/austintaylor/vim-indentobject.git'
 " Show indent guides
@@ -42,19 +47,13 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'moll/vim-node'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
-Plugin 'jamescarr/snipmate-nodejs' " Snippets for Node.js
 Plugin 'marijnh/tern_for_vim' " Js parser
 Plugin 'vim-scripts/JavaScript-Indent'
 Plugin 'maksimr/vim-jsbeautify' " Javascript beautifier
 Plugin 'einars/js-beautify'
 
-" Syntax
-Plugin 'groenewege/vim-less'
-Plugin 'kchmck/vim-coffee-script.git'
-Plugin 'briancollins/vim-jst'
-Plugin 'digitaltoad/vim-jade.git'
-
 " Colorschemes
+Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'w0ng/vim-hybrid'
 
 "  "General"  {{{1
@@ -79,7 +78,7 @@ set encoding=utf-8             " Set default encoding to UTF-8
 "set autoread                   " Automatically reread changed files without asking me anything
 
 set laststatus=2
-set list                       " подсвечивать некоторые символы 
+set list                       " подсвечивать некоторые символы
 
 set autoindent                 " Наследовать отступы предыдущей строки
 set smartindent                " Включить 'умные' отступы
@@ -136,20 +135,33 @@ set scrolloff=5
 set foldlevelstart=99 " Open all folds on start
 set foldnestmax=3
 set foldtext=CustomFoldText()
+
 "  "FileTypes"  {{{1
 " ----------------------------------------------"
-au FileType javascript call JavaScriptFold()
 
-"  "Sessions"  {{{1
-" ----------------------------------------------"
-set sessionoptions=curdir,buffers,folds,tabpages,winpos,help,blank,resize,winpos,winsize " Опции сессий
-set sessionoptions+=unix,slash                                                           " Опции помогают переносить файлы сессий с *nix`ов в ms-windows и наоборот
+augroup configgroup
+    autocmd!
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md call StripTrailingWhitespaces()
+    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+    autocmd BufEnter Makefile setlocal noexpandtab
 
-"  "GUI modifications (color, shortcuts, etc.. "  {{{1
+    autocmd FileType javascript call JavaScriptFold() | set foldlevelstart=99
+augroup END
+
+"  "GUI modifications (color, shortcuts, etc.. )"  {{{1
 " ----------------------------------------------"
 " Установка символов для подсветки
 set fillchars=fold:·,vert:\|
-set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×
+set listchars=tab:▸\ ,trail:·,extends:»,precedes:«,nbsp:×,eol:¬
+
+" allows cursor change in tmux mode
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 
 " Show ↪ at the beginning of wrapped lines
 if has("linebreak")
@@ -165,7 +177,6 @@ colorscheme hybrid
 
 set t_Co=256	" 256 colors in terminal
 set ttyfast
-set lazyredraw
 
 "Airline
 "Q. There is a pause when leaving insert mode.
@@ -190,17 +201,12 @@ endif
 
 "  "Mappings"  {{{1
 " ----------------------------------------- "
+"  General {{{2
+" ***************************************** "
 let mapleader=","
 
-" Fix Vim’s horribly broken default regex “handling” by automatically inserting a \v before any string you search for.
-" This turns off Vim’s crazy default regex characters and makes searches use normal regexes.
-nnoremap / /\v
-vnoremap / /\v
-
-cnoremap <C-h> <Left>
-cnoremap <C-l> <Right>
-cnoremap <C-j> <Down>
-cnoremap <C-k> <Up>
+" Expand %% in command line to current file path
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
 
 nmap n nzz
 nmap N Nzz
@@ -212,7 +218,8 @@ nmap # #zz
 inoremap jk <Esc>
 snoremap jk <Esc>
 
-nnoremap <silent><Esc> :nohlsearch<CR><ESC>
+nnoremap <Leader><Leader> :nohlsearch<CR><ESC>
+
 
 " Visually select the text that was last edited/pasted
 nmap gV `[v`]
@@ -221,10 +228,6 @@ nmap gV `[v`]
 vnoremap < <gv
 vnoremap > >gv
 
-" Ctrl+S
-map <C-s> <esc>:w<CR>
-imap <C-s> <C-o>:w<CR>
-"
 " Yank to the end of the line
 nnoremap Y y$
 
@@ -235,47 +238,58 @@ noremap gk k
 
 "  Quick edit  {{{2
 " ***************************************** "
-
 " ,ev open _vimrc in new tab
-nmap <leader>ev :e $MYVIMRC<CR>
-"
-" ,ei open gitignore in new tab
-nmap <leader>ei :e .gitignore<CR>
+map <leader>ev :e $MYVIMRC<CR>
 
-" ,es Scratch buffer
-nmap <leader>es :Scratch<cr>
+" ,ew open file in same directory as current file
+map <leader>ew :e %%
+
+map <leader>ed :NERDTreeFind<CR>
+
+" ,ei open gitignore in new tab
+map <leader>ei :e .gitignore<CR>
+
 
 "  Splits and buffers  {{{2
 " ***************************************** "
 
-" Создаем пустой сплит относительно текущего
-"nmap <Leader><Bar> :vnew <bar> set nobuflisted<CR>
-"nmap <Leader>- :rightbelow new <bar> set nobuflisted<CR>
-nmap <Leader>\ :rightbelow vnew <bar> set nobuflisted<CR>
-nmap <Leader>_ :new <bar> set nobuflisted<CR>
+nmap <Leader>q :BW<CR>
 
-" Sane alternate buffer switching when using vim-vinegar and
-" NERDTree. When you open file using vindegar - the alternate
-" file would be the NERDTree window. This will fix it
-nmap <C-^> <C-b><CR>
+nmap <C-w>v :rightbelow vnew <bar> set nobuflisted<CR>
+nmap <C-w>s :rightbelow new <bar> set nobuflisted<CR>
 
 " Quick window resizing
-map <C-k> 2<C-w>>
-map <C-j> 2<C-w><
-map <C-m> 2<C-w>+
-map <C-n> 2<C-w>-
+map <C-k> 2<C-w>+
+map <C-j> 2<C-w>-
+map <C-h> 2<C-w><
+map <C-l> 2<C-w>>
+
 "  Utilities  {{{2
 " ***************************************** "
+map <leader>gd :Goyo<CR>
 map <Leader>gw :set invwrap<CR>
 map <leader>gg :GitGutterToggle<cr>
 
 " Remove trailing spaces
-map <Leader>f<Space> :%s/\s\+$//<cr>''
+map <Leader>f<Space> :call StripTrailingWhitespaces()<CR>
 
 " Replace multiple empty lines with one
 map <leader>fl :silent %!cat -s<Return>
+
 "  "Functions"  {{{1
 " ----------------------------------------- "
+" strips trailing whitespace at the end of files. this
+" is called on buffer write in the autogroup above.
+fu! StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endf
+
 fu! CustomFoldText()
     "get first non-blank line
     let fs = v:foldstart
@@ -290,19 +304,59 @@ fu! CustomFoldText()
     let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
     let foldSize = 1 + v:foldend - v:foldstart
     let foldSizeStr = " " . foldSize . " lines "
-    let foldLevelStr = repeat("+--", v:foldlevel)
+    "let foldLevelStr = repeat("+--", v:foldlevel)
+    let foldLevelStr = repeat("+-", v:foldlevel - 1)
     let lineCount = line("$")
-    "let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
-    "let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
     let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr))
-    "return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-    return line . expansionString . foldSizeStr . foldLevelStr
+    "return line . expansionString . foldSizeStr . foldLevelStr
+    return foldLevelStr . line . expansionString . foldSizeStr
 endf
+
 "  "Plugin configs"  {{{1
 " ----------------------------------------- "
-"  Lite FDM(distraction free mode)  {{{2
+"  "Vim-notes" {{{2
 " ***************************************** "
-nnoremap <Leader>d :LiteDFMToggle<CR>:silent !tmux set status<CR>
+let g:notes_directories = ['~/Dropbox/Notes']
+let g:notes_suffix = '.txt'
+"let g:notes_smart_quotes = 0
+
+"  "Goyo and LimeLight" {{{2
+" ***************************************** "
+let g:goyo_margin_top=0
+let g:goyo_margin_bottom=0
+
+fu! s:goyo_enter()
+    Limelight
+    set nonu
+    set fullscreen
+    set scrolloff=999
+    set linespace=4
+endfu
+
+fu! s:goyo_leave()
+    Limelight!
+    set nu
+    set nofullscreen
+    set scrolloff=5
+    set linespace=0
+endfu
+
+autocmd! User GoyoEnter
+autocmd! User GoyoLeave
+autocmd  User GoyoEnter call <SID>goyo_enter()
+autocmd  User GoyoLeave call <SID>goyo_leave()
+
+"  "Hard Time" {{{2
+" ***************************************** "
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = [ "CustomPatt[ae]rn", "NERD.*" ]
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_allow_different_key = 1
+let g:hardtime_maxcount = 2
+
+let g:list_of_normal_keys = [ "h", "j", "k", "l" ]
+let g:list_of_visual_keys = [ "h", "j", "k", "l" ]
+
 "  delimitMate  {{{2
 " ***************************************** "
 let delimitMate_expand_cr = 2
@@ -328,21 +382,22 @@ let g:ctrlp_custom_ignore = {
 nmap <C-f> :CtrlPMRU<cr>
 imap <C-f> <esc>:CtrlPMRU<cr>
 
-nmap <C-p> :CtrlPMRU<cr>
-imap <C-p> <esc>:CtrlPMRU<cr>
+nmap <C-p> :CtrlPRoot<cr>
+imap <C-p> <esc>:CtrlPRoot<cr>
 
 nmap <C-b> :CtrlPBuffer<cr>
 imap <C-b> <esc>:CtrlPBuffer<cr>
 
 "  NERDTree  {{{2
 " ***************************************** "
-let NERDTreeWinPos = 'right'
+let NERDTreeWinPos = 'left'
 let NERDTreeIgnore = ['\~$', '*.pyc', '*.pyo']
 
 nnoremap <Bs> :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=0
 let NERDTreeChDirMode=2
-let NERDTreeQuitOnOpen=1
+"let NERDTreeQuitOnOpen=1
+let NERDTreeQuitOnOpen=0
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=0
 let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
@@ -370,6 +425,9 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_sep = ''
 
+" disable Gitgutter signs in airline
+let g:airline_enable_hunks = 0
+
 "  YouCompleteMe  {{{2
 " ***************************************** "
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -379,12 +437,6 @@ let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
-
-"  SessionMan  {{{2
-" ***************************************** "
-nmap <Leader>sl : SessionList<cr>
-nmap <Leader>ss : SessionSave<cr>
-nmap <Leader>sS : SessionSaveAs<cr>
 
 "  Ultisnips  {{{2
 " ***************************************** "
@@ -399,17 +451,14 @@ autocmd FileType css nnoremap <buffer> <leader>ff :call CSSBeautify()<cr>
 autocmd FileType javascript vnoremap <buffer>  <leader>ff :call RangeJsBeautify()<cr>
 autocmd FileType html vnoremap <buffer> <leader>ff :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
+
 "  Indent guides {{{2
 " ***************************************** "
 "let g:indentLine_char = '┆'
 let g:indentLine_char = '|'
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#A4E57E'
-"  TSlime {{{2
-" ***************************************** "
-vmap <leader>s <Plug>SendSelectionToTmux
-nmap <leader>s <Plug>NormalModeSendToTmux
-nmap <leader>r <Plug>SetTmuxVars
+
 " ----------------------------------------------"
 "  }}}  {{{1
 " vim: foldenable fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64
