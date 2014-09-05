@@ -425,6 +425,9 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_sep = ''
 
+" disable Gitgutter signs in airline
+let g:airline_enable_hunks = 0
+
 "  YouCompleteMe  {{{2
 " ***************************************** "
 let g:ycm_autoclose_preview_window_after_completion = 1
