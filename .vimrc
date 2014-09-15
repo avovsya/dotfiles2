@@ -11,6 +11,8 @@ call vundle#rc()
 " Note taking
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-notes'
+Plugin 'mtth/scratch.vim'
+Plugin 'vim-scripts/sessionman.vim.git'
 " }}}
 Plugin 'gmarik/vundle.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -136,6 +138,13 @@ set foldlevelstart=99 " Open all folds on start
 set foldnestmax=3
 set foldtext=CustomFoldText()
 
+"  "Sessions"  {{{1
+" ----------------------------------------------"
+" Set cursor to the previous position while opening file
+autocmd BufReadPost * call SetCursorPosition()
+
+set sessionoptions=curdir,buffers,folds,tabpages,winpos,help,blank,resize,winpos,winsize " Опции сессий
+set sessionoptions+=unix,slash                                                           " Опции помогают переносить файлы сессий с *nix`ов в ms-windows и наоборот
 "  "FileTypes"  {{{1
 " ----------------------------------------------"
 
@@ -290,6 +299,16 @@ fu! StripTrailingWhitespaces()
     call cursor(l, c)
 endf
 
+" Return to prev position in file, after reopen
+function! SetCursorPosition()
+    if &filetype !~ 'svn\|commit\c'
+        if line("'\"") > 0 && line("'\"") <= line("$")
+            exe "normal! g`\""
+            normal! zz
+        endif
+    end
+endfunction
+
 fu! CustomFoldText()
     "get first non-blank line
     let fs = v:foldstart
@@ -314,6 +333,12 @@ endf
 
 "  "Plugin configs"  {{{1
 " ----------------------------------------- "
+"  SessionMan  {{{2
+" ***************************************** "
+nmap <Leader>sl : SessionList<cr>
+nmap <Leader>ss : SessionSave<cr>
+nmap <Leader>sS : SessionSaveAs<cr>
+
 "  "Vim-notes" {{{2
 " ***************************************** "
 let g:notes_directories = ['~/Dropbox/Notes']
