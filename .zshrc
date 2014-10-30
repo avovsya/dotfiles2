@@ -22,6 +22,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:/sbin:/usr/local/bin:/usr/local/share/npm/bin:$PATH:$HOME/bin
+# Homebrew
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export PATH="/Users/avovsya/anaconda/bin:$PATH"
 
 # Disable XOFF in terminal allow use the Ctrl+S combination in VIM
 stty ixany
