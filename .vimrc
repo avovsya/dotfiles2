@@ -3,50 +3,6 @@
 set nocompatible
 filetype off
 
-set runtimepath+=~/.vim/bundle/vundle
-call vundle#rc()
-
-" Testing plugin {{{2
-
-" Note taking
-Plugin 'vim-scripts/sessionman.vim.git'
-" }}}
-Plugin 'gmarik/vundle.git'
-Plugin 'scrooloose/nerdcommenter.git'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'scrooloose/syntastic.git'
-Plugin 'kien/ctrlp.vim.git'
-Plugin 'vim-scripts/IndexedSearch.git'
-Plugin 'tpope/vim-surround.git'
-Plugin 'tpope/vim-repeat.git'
-Plugin 'mileszs/ack.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'bling/vim-airline'
-Plugin 'vim-scripts/bufkill.vim.git'
-Plugin 'SirVer/ultisnips'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Raimondi/delimitMate'
-Plugin 'tmhedberg/matchit'
-Plugin 'avovsya/vim-snippets'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'kshenoy/vim-signature'
-Plugin 'vim-scripts/AutoComplPop'
-Plugin 'ervandew/supertab'
-
-" Javascript
-Plugin 'moll/vim-node'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'pangloss/vim-javascript'
-Plugin 'marijnh/tern_for_vim' " Js parser
-Plugin 'vim-scripts/JavaScript-Indent'
-Plugin 'maksimr/vim-jsbeautify' " Javascript beautifier
-Plugin 'einars/js-beautify'
-
-" Colorschemes
-Plugin 'chriskempson/vim-tomorrow-theme'
-Plugin 'w0ng/vim-hybrid'
-
 "  "General"  {{{1
 " ----------------------------------------------"
 syntax on
@@ -132,13 +88,13 @@ set sessionoptions+=unix,slash                                                  
 "  "FileTypes"  {{{1
 " ----------------------------------------------"
 
-augroup configgroup
-    autocmd!
-    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
-    autocmd BufEnter Makefile setlocal noexpandtab
+" augroup configgroup
+"     autocmd!
+"     autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+"     autocmd BufEnter Makefile setlocal noexpandtab
 
-    autocmd FileType javascript call JavaScriptFold() | set foldlevelstart=99
-augroup END
+"     autocmd FileType javascript call JavaScriptFold() | set foldlevelstart=99
+" augroup END
 
 "  "GUI modifications (color, shortcuts, etc.. )"  {{{1
 " ----------------------------------------------"
@@ -152,37 +108,16 @@ set background=dark
 language mes C
 
 set background=dark
-colorscheme hybrid
+colorscheme wombat
 
 set t_Co=256	" 256 colors in terminal
 set ttyfast
-
-"Airline
-"Q. There is a pause when leaving insert mode.
-"A. Add the following to your vimrc.  >
-set ttimeoutlen=50
-
-if has("gui_macvim")
-    " No toolbars, menu or scrollbars in the GUI
-    set guifont=Anonymous\ Pro:h18
-    set vb t_vb=
-    set guioptions-=m  "no menu
-    set guioptions-=T  "no toolbar
-    set guioptions-=l
-    set guioptions-=L
-    set guioptions-=r  "no scrollbar
-    set guioptions-=R
-    set guioptions+=c " use console dialogs
-
-    set cursorline
-    set colorcolumn=80
-endif
 
 "  "Mappings"  {{{1
 " ----------------------------------------- "
 "  General {{{2
 " ***************************************** "
-let mapleader=","
+let mapleader="<SPC>"
 
 " Expand %% in command line to current file path
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
@@ -215,8 +150,6 @@ noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
-
-map <leader>r :NERDTreeFind<CR>
 
 "  Splits and buffers  {{{2
 " ***************************************** "
@@ -262,99 +195,4 @@ fu! CustomFoldText()
     "return line . expansionString . foldSizeStr . foldLevelStr
     return foldLevelStr . line . expansionString . foldSizeStr
 endf
-
-"  "Plugin configs"  {{{1
-" ----------------------------------------- "
-"  SessionMan  {{{2
-" ***************************************** "
-nmap <Leader>sl : SessionList<cr>
-nmap <Leader>ss : SessionSave<cr>
-nmap <Leader>sS : SessionSaveAs<cr>
-
-"  delimitMate  {{{2
-" ***************************************** "
-let delimitMate_expand_cr = 2
-let delimitMate_expand_space = 1
-
-"  CtrlP  {{{2
-" ***************************************** "
-let g:ctrlp_cmd = 'CtrlPMixed'			" search anything (in files, buffers and MRU files at the same time.)
-let g:ctrlp_working_path_mode = 'ra'	" search for nearest ancestor like .git, .hg, and the directory of the current file
-let g:ctrlp_match_window_bottom = 0		" show the match window at the top of the screen
-let g:ctrlp_by_filename = 0     " Search only by file name, Can be toggled by Ctrl-d
-let g:ctrlp_max_height = 10				" maxiumum height of match window
-let g:ctrlp_switch_buffer = 'et'		" jump to a file if it's open already
-let g:ctrlp_use_caching = 1				" enable caching
-let g:ctrlp_clear_cache_on_exit=0  		" speed up by not removing clearing cache evertime
-let g:ctrlp_mruf_max = 250 				" number of recently opened files
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  'node_modules\|DS_Store\|git\|hg\|svn',
-            \ 'file': '\v\.(exe|so|dll)$',
-            \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-            \ }
-
-nmap <C-e> :CtrlPMRU<cr>
-imap <C-e> <esc>:CtrlPMRU<cr>
-
-nmap <C-p> :CtrlPRoot<cr>
-imap <C-p> <esc>:CtrlPRoot<cr>
-
-nmap <C-b> :CtrlPBuffer<cr>
-imap <C-b> <esc>:CtrlPBuffer<cr>
-
-"  NERDTree  {{{2
-" ***************************************** "
-let NERDTreeWinPos = 'left'
-let NERDTreeIgnore = ['\~$', '*.pyc', '*.pyo']
-
-nnoremap <Bs> :NERDTreeToggle<CR>
-let NERDTreeShowBookmarks=0
-let NERDTreeChDirMode=2
-"let NERDTreeQuitOnOpen=1
-let NERDTreeQuitOnOpen=0
-let NERDTreeShowHidden=1
-let NERDTreeKeepTreeInNewTab=0
-let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
-let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
-
-"  Syntastic  {{{2
-" ***************************************** "
-let g:syntastic_enable_signs = 1
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_style_error_symbol = '✠'
-let g:syntastic_warning_symbol = '∆'
-let g:syntastic_style_warning_symbol = '≈'
-let g:syntastic_check_on_open = 1
-
-"  Airline  {{{2
-" ***************************************** "
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_left_sep = ''
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_sep = ''
-
-"  Ultisnips  {{{2
-" ***************************************** "
-let g:UltiSnipsExpandTrigger="<tab>"
-
-"  JS Beautifier  {{{2
-" ***************************************** "
-autocmd FileType javascript nnoremap <buffer>  <C-f> :call JsBeautify()<cr>
-autocmd FileType html nnoremap <buffer> <C-f> :call HtmlBeautify()<cr>
-autocmd FileType css nnoremap <buffer> <C-f> :call CSSBeautify()<cr>
-
-autocmd FileType javascript vnoremap <buffer>  <C-f> :call RangeJsBeautify()<cr>
-autocmd FileType html vnoremap <buffer> <C-f> :call RangeHtmlBeautify()<cr>
-autocmd FileType css vnoremap <buffer> <C-f> :call RangeCSSBeautify()<cr>
-
-"  Supertab  {{{2
-" ***************************************** "
-let g:SuperTabDefaultCompletionType = "<c-n>"
-" ----------------------------------------------"
-"  }}}  {{{1
-" vim: foldenable fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64
-" fileencoding=utf-8
 " " }}}
