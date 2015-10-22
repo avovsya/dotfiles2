@@ -1,14 +1,20 @@
 #! /bin/bash
 
+# PREREQUISITES
+# zsh
+# fish shell
+# git
+# curl
+# emacs
+
 # ZSH
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
 ln -s ~/dotfiles/.zshrc ~/.zshrc
-# wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -
 
 # FISH SHELL
 curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish
-rm ~/.config/fish/config.fish
-ln -s ~/dotfiles/config.fish ~/.config/fish/config.fish
+rm -rf ~/.config/omf
+ln -s ~/dotfiles/omf/ ~/.config/omf 
 
 # EMACS
 ln -s ~/dotfiles/.spacemacs ~/.spacemacs
