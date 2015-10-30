@@ -18,6 +18,6 @@ alias vim="reattach-to-user-namespace vim"
 ############################################################################################
 set -x EDITOR vim
 
-export TERM=xterm-256color
+set -x TERM xterm-256color
 
 setxkbmap -option ctrl:nocaps
