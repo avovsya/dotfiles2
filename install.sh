@@ -20,8 +20,8 @@ ln -s ~/dotfiles/omf/ ~/.config/omf
 ln -s ~/dotfiles/emacs /usr/local/bin/emacs
 ln -s ~/dotfiles/.spacemacs ~/.spacemacs
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-rm -rf ~/.emacs.d/private/snippets
-mkdir -p ~/.emacs.d/private && ln -s ~/dotfiles/snippets ~/.emacs.d/private/snippets
+# rm -rf ~/.emacs.d/private/snippets
+# mkdir -p ~/.emacs.d/private && ln -s ~/dotfiles/snippets ~/.emacs.d/private/snippets
 
 # OTHER
 ln -s ~/dotfiles/.gitconfig ~/.gitconfig

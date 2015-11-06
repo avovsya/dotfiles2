@@ -24,12 +24,15 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      (auto-completion :variables
+                      auto-completion-tab-key-behavior 'complete
+                      auto-completion-private-snippets-directory "~/dotfiles/snippets"
                       auto-completion-enable-snippets-in-popup t)
      ;; better-defaults
      emacs-lisp
      clojure
      javascript
      themes-megapack
+     restclient
      ;; git
      ;; markdown
      ;; org
@@ -198,6 +201,8 @@ layers configuration. You are free to put any user code."
   (spacemacs/toggle-mode-line-minor-modes-off)
   (setq powerline-default-separator 'nil)
   (setq js2-basic-offset 2)
+  (setq-default js-indent-level 2)
+  (define-key evil-insert-state-map (kbd "TAB") 'hippie-expand)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
