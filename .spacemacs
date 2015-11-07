@@ -25,7 +25,7 @@ values."
      ;; ----------------------------------------------------------------
      (auto-completion :variables
                       auto-completion-tab-key-behavior 'complete
-                      auto-completion-private-snippets-directory "~/dotfiles/snippets"
+                      auto-completion-private-snippets-directory "~/dotfiles/emacs-stuff/snippets"
                       auto-completion-enable-snippets-in-popup t)
      ;; better-defaults
      emacs-lisp
@@ -54,6 +54,15 @@ values."
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
    dotspacemacs-delete-orphan-packages t))
+
+;; My functions
+;; (defun dotspacemacs/nrepl-reset ()
+;;   (interactive)
+;;   (cider-switch-to-current-repl-buffer)
+;;   (goto-char (point-max))
+;;   (insert "(reset)")
+;;   (cider-repl-return)
+;;   (cider-switch-to-last-clojure-buffer))
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -203,6 +212,10 @@ layers configuration. You are free to put any user code."
   (setq js2-basic-offset 2)
   (setq-default js-indent-level 2)
   (define-key evil-insert-state-map (kbd "TAB") 'hippie-expand)
+  (add-to-list 'load-path "~/dotfiles/emacs-stuff/site-lisp")
+  (add-to-list 'load-path "~/dotfiles/emacs-stuff/settings")
+  (eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
+  ;; (define-key clojure-mode-map (kbd "C-c r") 'dotspacemacs/nrepl-reset)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
