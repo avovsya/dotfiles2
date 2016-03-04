@@ -105,7 +105,7 @@ set background=dark
 language mes C
 
 set background=dark
-colorscheme wombat
+colorscheme darkblue
 
 set t_Co=256	" 256 colors in terminal
 set ttyfast
@@ -126,8 +126,6 @@ nmap g# g#zz
 nmap * *zz
 nmap # #zz
 
-inoremap jk <Esc>
-snoremap jk <Esc>
 inoremap fd <Esc>
 snoremap fd <Esc>
 
