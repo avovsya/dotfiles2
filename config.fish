@@ -15,9 +15,12 @@ alias ps="ps aux"
 ############################################################################################
 # EXPORTS
 ############################################################################################
-set -x EDITOR vim
+set -x EDITOR vi
 
 set -x TERM xterm-256color
+set -x GOPATH $HOME/Documents/projects/go
+
+set PATH $GOPATH/bin $PATH
 
 set -x GOPATH $HOME/go
 set -x PATH $PATH:$GOPATH/bin

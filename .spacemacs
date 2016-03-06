@@ -30,7 +30,7 @@ values."
                       auto-completion-enable-snippets-in-popup t)
      ;; better-defaults
      emacs-lisp
-     clojure
+     ;; clojure
      javascript
      html
      git
@@ -38,6 +38,7 @@ values."
      syntax-checking
      version-control
      markdown
+     react
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -212,15 +213,24 @@ user code."
 layers configuration. You are free to put any user code."
   (spacemacs/toggle-mode-line-minor-modes-off)
   (setq powerline-default-separator 'nil)
+
+  (define-key evil-insert-state-map (kbd "TAB") 'hippie-expand)
+
   (setq js2-basic-offset 2)
   (setq-default js-indent-level 2)
 
-  (define-key evil-insert-state-map (kbd "TAB") 'hippie-expand)
   (add-to-list 'load-path "~/dotfiles/emacs-stuff/site-lisp")
   (add-to-list 'load-path "~/dotfiles/emacs-stuff/settings")
   (eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
+  (global-aggressive-indent-mode 1)
+
+  (add-to-list 'auto-mode-alist '("\\.tmpl\\" . web-mode))
+  (add-hook 'web-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+  (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+  (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+
   ;; (define-key clojure-mode-map (kbd "C-c r") 'dotspacemacs/nrepl-reset)
-)
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
