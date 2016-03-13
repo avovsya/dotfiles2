@@ -224,8 +224,8 @@ layers configuration. You are free to put any user code."
   (eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
   (global-aggressive-indent-mode 1)
 
-  (add-to-list 'auto-mode-alist '("\\.tmpl\\" . web-mode))
-  (add-hook 'web-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+  (add-to-list 'auto-mode-alist '("\\.tmpl$" . web-mode))
+  ;; (add-hook 'web-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
   (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
   (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 
