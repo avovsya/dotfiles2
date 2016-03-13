@@ -1,6 +1,3 @@
-# Load local configuration
-source ~/.local.fish
-
 ############################################################################################
 # ALIASES
 ############################################################################################
@@ -18,11 +15,14 @@ alias ps="ps aux"
 set -x EDITOR vi
 
 set -x TERM xterm-256color
-set -x GOPATH $HOME/Documents/projects/go
 
+set -x GOPATH $HOME/projects/go
 set PATH $GOPATH/bin $PATH
 
-set -x GOPATH $HOME/go
-set -x PATH $PATH:$GOPATH/bin
+# set -x GOPATH $HOME/go
+# set -x PATH $PATH:$GOPATH/bin
 
 setxkbmap -option ctrl:nocaps
+
+# Load local configuration
+source ~/.local.fish
