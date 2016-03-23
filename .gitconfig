@@ -22,11 +22,6 @@
     editor = vim
     excludesfile = /Users/avovsya/.gitignore_global
 
-[diff]
-	tool = vimdiff
-    noprefix = true
-    #prompt = false
-
 [alias]
     co = checkout
     ci = commit
