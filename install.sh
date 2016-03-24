@@ -7,6 +7,7 @@
 # curl
 # emacs
 # TODO: https://hackercodex.com/guide/mac-osx-mavericks-10.9-configuration/
+# TODO: install silversearcher(ag) for linux and OS X
 
 # ZSH
 # curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
