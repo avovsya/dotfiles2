@@ -33,9 +33,7 @@ alias l="ls -lAhG"
 alias ssh="ssh -A"
 
 alias ps="ps aux"
-
-alias vim="reattach-to-user-namespace vim"
 ############################################################################################
 # EXPORTS
 ############################################################################################
-export EDITOR=vim
+export EDITOR=em

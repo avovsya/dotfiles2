@@ -9,45 +9,28 @@
 # TODO: https://hackercodex.com/guide/mac-osx-mavericks-10.9-configuration/
 # TODO: install silversearcher(ag) for linux and OS X
 
-# ZSH
-# curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+# Install emacs https://www.emacswiki.org/emacs/EmacsForMacOS#toc15
+brew cask install emacs
 
-# EMACS
-if [[ "$OSTYPE" == "darwin" ]]; then
-    ln -s ~/dotfiles/emacs /usr/local/bin/emacs
-fi
-git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-# rm -rf ~/.emacs.d/private/snippets
-# mkdir -p ~/.emacs.d/private && ln -s ~/dotfiles/snippets ~/.emacs.d/private/snippets
-# TODO: snippets
+# Install ag search tool
+brew install the_silver_searcher
 
-# INSTALL FISH
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        # ...
-    sudo apt-add-repository ppa:fish-shell/release-2
-    sudo apt-get update
-    sudo apt-get install fish
-    chsh -s /usr/bin/fish
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-        # Mac OSX
-    brew install fish
-    echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
-    chsh -s /usr/local/bin/fish
-else
-    echo "ERROR: UNKNOWN OS"
-        # Unknown.
-fi
-# END: INSTALL FISH
+# Launch emacs daemon on startup https://emacs.stackexchange.com/questions/8169/how-can-i-run-emacs-24-x-app-on-mac-os-x-in-daemon-mode
+ln -sfv /usr/local/opt/emacs/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.emacs.plist
+
+# Install fzf https://github.com/junegunn/fzf
+# Fuzzy finder for command line brew install fzf
+
+# Install z https://github.com/rupa/z
 
 # Link dot files
 cd ~/
 
 mkdir -p ~/.config/fish
-rm .zshrc .gitconfig .tmux.conf .vimrc .config/fish/config.fish .spacemacs
+#rm .gitconfig .tmux.conf .vimrc # .config/fish/config.fish .spacemacs
 
-ln -s ~/dotfiles/.spacemacs ~/.spacemacs
 ln -s ~/dotfiles/config.fish ~/.config/fish/config.fish
-ln -s ~/dotfiles/.zshrc ~/.zshrc
 ln -s ~/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/.vimrc ~/.vimrc
