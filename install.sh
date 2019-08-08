@@ -12,6 +12,9 @@
 # Install emacs https://www.emacswiki.org/emacs/EmacsForMacOS#toc15
 # brew cask install emacs
 
+# Install Homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
 # Install ag search tool
 brew install the_silver_searcher
 
@@ -35,6 +38,8 @@ ln -s ~/dotfiles/karabiner.json ~/.config/karabiner/karabiner.json
 ########
 # https://github.com/JorgeBucaran/awesome-fish
 pip install virtualfish
+
+brew install tmux
 
 # Install fzf https://github.com/junegunn/fzf
 brew install fzf
