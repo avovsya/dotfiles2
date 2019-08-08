@@ -5,7 +5,7 @@
 # fish shell
 # git
 # curl
-# # emacs
+# emacs
 # TODO: https://hackercodex.com/guide/mac-osx-mavericks-10.9-configuration/
 # TODO: install silversearcher(ag) for linux and OS X
 
@@ -19,6 +19,7 @@ brew install the_silver_searcher
 cd ~/
 
 mkdir -p ~/.config/fish
+mkdir -p ~/.config/karabiner
 
 ln -s ~/dotfiles/config.fish ~/.config/fish/config.fish
 ln -s ~/dotfiles/.zshrc ~/.zshrc
@@ -26,12 +27,13 @@ ln -s ~/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/.vimrc ~/.vimrc
 
+ln -s ~/dotfiles/karabiner.json ~/.config/karabiner/karabiner.json
+
 
 ########
 # FISH #
 ########
 # https://github.com/JorgeBucaran/awesome-fish
-
 pip install virtualfish
 
 # Install fzf https://github.com/junegunn/fzf
