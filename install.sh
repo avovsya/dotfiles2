@@ -40,6 +40,7 @@ ln -s ~/dotfiles/karabiner.json ~/.config/karabiner/karabiner.json
 pip install virtualfish
 
 brew install tmux
+brew install fish
 
 # Install fzf https://github.com/junegunn/fzf
 brew install fzf

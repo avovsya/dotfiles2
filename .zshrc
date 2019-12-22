@@ -73,19 +73,20 @@ alias ps="ps aux"
 export EDITOR=vim
 
 # PATH
-export PATH=/Applications/Postgres.app/Contents/Versions/10/bin:$PATH
+# export PATH=/Applications/Postgres.app/Contents/Versions/10/bin:$PATH
 
 #SPARK
-export PYSPARK_DRIVER_PYTHON=ipython
-export PYSPARK_SUBMIT_ARGS="--packages com.amazonaws:aws-java-sdk:1.11.329,org.apache.hadoop:hadoop-aws:2.6.0 pyspark-shell"
+# export PYSPARK_DRIVER_PYTHON=ipython
+# export PYSPARK_SUBMIT_ARGS="--packages com.amazonaws:aws-java-sdk:1.11.329,org.apache.hadoop:hadoop-aws:2.6.0 pyspark-shell"
 
 # FZF
-export PATH=/Users/artem.vovsia/.fzf/bin:$PATH
-source ~/.fzf/shell/key-bindings.zsh
+# export PATH=/Users/artem.vovsia/.fzf/bin:$PATH
+# source ~/.fzf/shell/key-bindings.zsh
 
 
 # ZPlug plugins
-source ~/.zplug/init.zsh
+# source ~/.zplug/init.zsh
 
-zplug "MichaelAquilina/zsh-autoswitch-virtualenv"
-zplug "tonyseek/oh-my-zsh-virtualenv-prompt"
+# zplug "MichaelAquilina/zsh-autoswitch-virtualenv"
+# zplug "tonyseek/oh-my-zsh-virtualenv-prompt"
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
